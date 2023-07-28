@@ -9,4 +9,13 @@ Integrantes:
 
 Descrição:
 
+    Pasta bin: Executáveis do programa
+    Pasta src: Código fonte
+        - (descrição de cada arquivo fonte)
+        -
+        -
+    Pasta obj: Objetos não linkados
+    Pasta headers: Headers
+    Makefile: Macro para compilação
+
 
