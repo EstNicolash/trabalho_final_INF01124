@@ -10,13 +10,19 @@ SRC = ./src/
 OBJ = ./obj/
 HDR = ./headers/
 BIN = ./bin/
+PROG_NAME = main
 
 All:
 	#Modelo:
 	#$(CC) -c $(SRC)file_name.c -I $(HDR) -o $(OBJ)file_name.o
-	#$(CC) $(SRC)program_file_name.c	$(OBJ)*.o -I $(HDR) -o program_file_name
+	#$(CC) $(SRC)$(PROG_NAME).c	$(OBJ)*.o -I $(HDR) -o $(BIN)$(PROG_NAME)
 
+	$(CC) $(SRC)$(PROG_NAME).c -I $(HDR) -o $(BIN)$(PROG_NAME)
 debug:
+
+run:
+	$(BIN)$(PROG_NAME)
+
 
 clean:
 	rm ./bin/* ./obj/*
