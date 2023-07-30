@@ -83,7 +83,6 @@ int list_length(List list) {
  */
 Data *list_search(List list, int key) {
   while (list) {
-    ++count_consultas;
 
     if (list->data.fifa_id == key)
       return &(list->data);
