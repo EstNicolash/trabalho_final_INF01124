@@ -10,7 +10,7 @@ SRC = ./src/
 OBJ = ./obj/
 HDR = ./headers/
 BIN = ./bin/
-PROG_NAME = main
+PROG_NAME = main.bin
 
 All:
 	#Modelo:
