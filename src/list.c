@@ -1,4 +1,4 @@
-#include "list.h"
+#include "../headers/list.h"
 /* list_init
  * Inicializa a lista com NULL
  * @param *list: Ponteiro para uma lista
@@ -16,7 +16,8 @@ void list_init(List *list) { *list = NULL; }
 void list_print(List list) {
 
   while (list) {
-    printf("[fifa_id: %d, name: %s]", list->data.fifa_id, list->data.name);
+    printf("[fifa_id: %d, total: %d sum: %f]", list->data.fifa_id,
+           list->data.total_rating, list->data.rating_sum);
     list = list->next;
   }
   printf("\n");
@@ -30,13 +31,38 @@ void list_print(List list) {
  * @param data: Dado do elemento a ser isnerido na lista
  *
  */
-void list_insertion_begin(List *list, Data data) {
+void count_rating_list_insertion_end(List *list, Data data) {
+
+  if (*list) {
+    List aux = *list;
+
+    while (aux->next) {
+      if (aux->data.fifa_id == data.fifa_id) {
+        aux->data.total_rating++;
+        aux->data.rating_sum += data.rating_sum;
+        return;
+      }
+
+      aux = aux->next;
+    }
+
+    List new_list = (List)malloc(sizeof(struct list));
+    new_list->data = data;
+    new_list->next = NULL;
+
+    aux->next = new_list;
+
+    return;
+  }
+
   List new_list = (List)malloc(sizeof(struct list));
   new_list->data = data;
-  new_list->next = *list;
-  *list = new_list;
-}
+  new_list->next = NULL;
 
+  *list = new_list;
+
+  return;
+}
 /* list_destruct
  *
  * @brief: Destói a lista

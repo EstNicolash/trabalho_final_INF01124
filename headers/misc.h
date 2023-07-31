@@ -9,7 +9,8 @@
 #include <string.h>
 #define PLAYERS_FILE "files/players.csv"
 #define TAGS_FILE "files/tags.csv"
-#define RATING_FILE "files/minirating.csv"
+#define MINIRATING_FILE "files/minirating.csv"
+#define RATING_FILE "files/rating.csv"
 #define NAME_LEN 100    // Tamanho máximo para guardar nome do jagador
 #define POSITIONS_LEN 4 // Tamanho máximo para guardar uma posição do jogador
 #define POSITIONS_NUM 14 // Tamanho máximo de posições do futebol
@@ -20,14 +21,5 @@
 typedef unsigned int uint;
 
 extern uint a_pow10[10]; // Potencias de 10 até 10^10
-
-// Guarda informação do jogador
-struct Data {
-  int fifa_id;
-  char name[NAME_LEN];
-  char positions[POSITIONS_LEN][POSITIONS_NUM];
-};
-typedef struct Data Data;
-typedef Data Player;
 
 #endif

@@ -75,7 +75,7 @@ void hash_table_print(HashTable *hash_table) {
 void hash_table_insertion(HashTable *hash_table, Data data) {
 
   // Insere na lista da posição dada pelo hash da chave do dado.
-  list_insertion_begin(
+  count_rating_list_insertion_end(
       &(hash_table->hash_table[hash_func(data.fifa_id, hash_table->size)]),
       data);
 }

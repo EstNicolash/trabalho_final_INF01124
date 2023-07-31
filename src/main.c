@@ -1,41 +1,32 @@
 #include "../headers/csv.h"
 #include "../headers/hash_table.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int main() {
   int i = 0;
-  HashTable *jogadores = hash_table_init(10);
-  Player player;
-
+  HashTable *count_rating = hash_table_init(10000);
+  Data rating;
+  rating.total_rating = 1;
   char *row;
   int cols = 0;
 
-  CsvHandle handle = CsvOpen(PLAYERS_FILE);
-  row = CsvReadNextRow(handle);
-
-  while (row = CsvReadNextRow(handle)) {
-    if (i == 20)
-      break;
-
-    const char *col;
-
-    col = CsvReadNextCol(row, handle);
-    printf("fifa_id: %s\n", col);
-    player.fifa_id = atoi(col);
-
-    col = CsvReadNextCol(row, handle);
-    strncpy(player.name, col, NAME_LEN);
-
-    cols = 0;
-    while (col = CsvReadNextCol(row, handle)) {
-      strncpy(player.positions[cols], col, ID);
-
-      cols++;
-    }
-    ++i;
-    hash_table_insertion(jogadores, player);
+  const char *col;
+  CsvHandle rating_handle = CsvOpen(RATING_FILE);
+  row = CsvReadNextRow(rating_handle);
+  uint count_row = 0;
+  while (row = CsvReadNextRow(rating_handle)) {
+    rating.rating_sum = 0;
+    col = CsvReadNextCol(row, rating_handle);
+    col = CsvReadNextCol(row, rating_handle);
+    rating.fifa_id = atoi(col);
+    col = CsvReadNextCol(row, rating_handle);
+    rating.rating_sum = strtod(col, NULL);
+    hash_table_insertion(count_rating, rating);
+    count_row++;
   }
-  hash_table_print(jogadores);
+  hash_table_print(count_rating);
+  printf("Row: %d", count_row);
   return 0;
 }
