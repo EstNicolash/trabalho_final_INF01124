@@ -1,12 +1,12 @@
+#include "../headers/count_rating_hash_table.h"
 #include "../headers/csv.h"
-#include "../headers/hash_table.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 int main() {
   int i = 0;
-  HashTable *count_rating = hash_table_init(10000);
+  CountRatingHashTable *count_rating = count_rating_hash_table_init(10000);
   Data rating;
   rating.total_rating = 1;
   char *row;
@@ -23,10 +23,10 @@ int main() {
     rating.fifa_id = atoi(col);
     col = CsvReadNextCol(row, rating_handle);
     rating.rating_sum = strtod(col, NULL);
-    hash_table_insertion(count_rating, rating);
+    count_rating_hash_table_insertion(count_rating, rating);
     count_row++;
   }
-  hash_table_print(count_rating);
+  count_rating_hash_table_print(count_rating);
   printf("Row: %d", count_row);
   return 0;
 }

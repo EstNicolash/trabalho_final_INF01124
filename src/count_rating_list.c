@@ -1,4 +1,4 @@
-#include "../headers/list.h"
+#include "../headers/count_rating_list.h"
 /* list_init
  * Inicializa a lista com NULL
  * @param *list: Ponteiro para uma lista

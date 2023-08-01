@@ -18,8 +18,9 @@
 #define NUM_TESTES 4
 #define BUFFER_SIZE 150
 
+#define PRIME 11 // Número primo usado na função de hashing
 typedef unsigned int uint;
-
+extern uint hash_func(int key, uint size);
 extern uint a_pow10[10]; // Potencias de 10 até 10^10
 
 #endif

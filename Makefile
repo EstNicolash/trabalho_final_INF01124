@@ -18,8 +18,8 @@ PROG_NAME = main
 All:
 	$(CC) -c $(SRC)misc.c -I $(HDR) -o $(OBJ)misc.o
 	$(CC) -c $(SRC)csv.c -I $(HDR) -o $(OBJ)csv.o
-	$(CC) -c $(SRC)list.c -I $(HDR) -o $(OBJ)list.o
-	$(CC) -c $(SRC)hash_table.c -I $(HDR) -o $(OBJ)hash_table.o
+	$(CC) -c $(SRC)count_rating_list.c -I $(HDR) -o $(OBJ)count_rating_list.o
+	$(CC) -c $(SRC)count_rating_hash_table.c -I $(HDR) -o $(OBJ)count_rating_hash_table.o
 	$(CC) $(SRC)$(PROG_NAME).c $(OBJ)*.o -I $(HDR) -o $(BIN)$(PROG_NAME).bin
 debug:
 
