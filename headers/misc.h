@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #define PLAYERS_FILE "files/players.csv"
 #define TAGS_FILE "files/tags.csv"
 #define MINIRATING_FILE "files/minirating.csv"
@@ -28,5 +29,26 @@ struct count_rating_data {
   int total_rating;
   double rating_sum;
 };
+
 typedef struct count_rating_data CountRatingData;
+
+struct palyer_data {
+  int fifa_id;
+  char name[NAME_LEN];
+  char positions[POSITIONS_LEN][POSITIONS_NUM];
+  CountRatingData *rating;
+  // Série de ponteiros para estruturas de dados diferentes?
+};
+typedef struct palyer_data PlayerData;
+
+struct user_review {
+  int fifa_id;
+  double rating;
+};
+typedef struct user_review user_review;
+struct user_data {
+  int user_id;
+  // ReviewList *review_list
+};
+
 #endif
