@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-Apenas um teste...
-=======
 #include "../headers/count_rating_hash_table.h"
 
 /* count_rating_hash_table_init
@@ -102,4 +99,3 @@ void hash_destruct(CountRatingHashTable *count_rating_hash_table) {
   free(count_rating_hash_table);
   count_rating_hash_table = NULL;
 }
->>>>>>> work_nan

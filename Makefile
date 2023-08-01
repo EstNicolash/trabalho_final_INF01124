@@ -20,6 +20,8 @@ All:
 	$(CC) -c $(SRC)csv.c -I $(HDR) -o $(OBJ)csv.o
 	$(CC) -c $(SRC)count_rating_list.c -I $(HDR) -o $(OBJ)count_rating_list.o
 	$(CC) -c $(SRC)count_rating_hash_table.c -I $(HDR) -o $(OBJ)count_rating_hash_table.o
+	$(CC) -c $(SRC)players_list.c -I $(HDR) -o $(OBJ)players_list.o
+	$(CC) -c $(SRC)players_hash_table.c -I $(HDR) -o $(OBJ)players_hash_table.o
 	$(CC) $(SRC)$(PROG_NAME).c $(OBJ)*.o -I $(HDR) -o $(BIN)$(PROG_NAME).bin
 debug:
 
