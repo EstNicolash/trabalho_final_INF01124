@@ -1,26 +1,20 @@
-#ifndef LIST_H
-#define LIST_H
+#ifndef COUNT_RATING_LIST_H
+#define COUNT_RATING_LIST_H
 #include "misc.h"
 
-struct Data {
-  int fifa_id;
-  int total_rating;
-  double rating_sum;
+// Estrutura count_rating_list: Dados e ponteiro pra próxima count_rating_lista
+struct count_rating_list {
+  CountRatingData data;
+  struct count_rating_list *next;
 };
-typedef struct Data Data;
-typedef Data Player;
-// Estrutura list: Dados e ponteiro pra próxima lista
-struct list {
-  Data data;
-  struct list *next;
-};
-typedef struct list *List;
+typedef struct count_rating_list *CountRatingList;
 
-void list_init(List *list);
-void list_print(List list);
-void count_rating_list_insertion_end(List *list, Data data);
-int list_length(List list);
-Data *list_search(List list, int key);
-void list_destruct(List *list);
+void count_rating_list_init(CountRatingList *list);
+void count_rating_list_print(CountRatingList list);
+void count_rating_list_insertion_end(CountRatingList *list,
+                                     CountRatingData data);
+int count_rating_list_length(CountRatingList list);
+CountRatingData *count_rating_list_search(CountRatingList list, int key);
+void count_rating_list_destruct(CountRatingList *list);
 
 #endif

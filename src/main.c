@@ -1,20 +1,17 @@
 #include "../headers/count_rating_hash_table.h"
 #include "../headers/csv.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 int main() {
-  int i = 0;
   CountRatingHashTable *count_rating = count_rating_hash_table_init(10000);
-  Data rating;
+
+  CountRatingData rating;
   rating.total_rating = 1;
   char *row;
-  int cols = 0;
-
   const char *col;
+
   CsvHandle rating_handle = CsvOpen(RATING_FILE);
   row = CsvReadNextRow(rating_handle);
+
   uint count_row = 0;
   while (row = CsvReadNextRow(rating_handle)) {
     rating.rating_sum = 0;

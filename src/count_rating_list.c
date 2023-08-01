@@ -4,7 +4,7 @@
  * @param *list: Ponteiro para uma lista
  *
  * */
-void list_init(List *list) { *list = NULL; }
+void count_rating_list_init(CountRatingList *list) { *list = NULL; }
 
 /*list_print
  *
@@ -13,8 +13,8 @@ void list_init(List *list) { *list = NULL; }
  * @param list: Lista para imprimir
  *
  */
-void list_print(List list) {
 
+void count_rating_list_print(CountRatingList list) {
   while (list) {
     printf("[fifa_id: %d, total: %d sum: %f]", list->data.fifa_id,
            list->data.total_rating, list->data.rating_sum);
@@ -31,10 +31,11 @@ void list_print(List list) {
  * @param data: Dado do elemento a ser isnerido na lista
  *
  */
-void count_rating_list_insertion_end(List *list, Data data) {
+void count_rating_list_insertion_end(CountRatingList *list,
+                                     CountRatingData data) {
 
   if (*list) {
-    List aux = *list;
+    CountRatingList aux = *list;
 
     while (aux->next) {
       if (aux->data.fifa_id == data.fifa_id) {
@@ -46,7 +47,8 @@ void count_rating_list_insertion_end(List *list, Data data) {
       aux = aux->next;
     }
 
-    List new_list = (List)malloc(sizeof(struct list));
+    CountRatingList new_list =
+        (CountRatingList)malloc(sizeof(struct count_rating_list));
     new_list->data = data;
     new_list->next = NULL;
 
@@ -55,7 +57,8 @@ void count_rating_list_insertion_end(List *list, Data data) {
     return;
   }
 
-  List new_list = (List)malloc(sizeof(struct list));
+  CountRatingList new_list =
+      (CountRatingList)malloc(sizeof(struct count_rating_list));
   new_list->data = data;
   new_list->next = NULL;
 
@@ -70,9 +73,9 @@ void count_rating_list_insertion_end(List *list, Data data) {
  * @param list: Endereço da lista a ser destruída
  *
  */
-void list_destruct(List *list) {
+void count_rating_list_destruct(CountRatingList *list) {
   while (*list) {
-    List aux = *list;
+    CountRatingList aux = *list;
     *list = aux->next;
     free(aux);
   }
@@ -87,7 +90,7 @@ void list_destruct(List *list) {
  * @return: O tamanho de list
  *
  */
-int list_length(List list) {
+int count_rating_list_length(CountRatingList list) {
   int count = 0;
   while (list) {
     list = list->next;
@@ -107,7 +110,7 @@ int list_length(List list) {
  * encontrado
  *
  */
-Data *list_search(List list, int key) {
+CountRatingData *count_rating_list_search(CountRatingList list, int key) {
   while (list) {
 
     if (list->data.fifa_id == key)
