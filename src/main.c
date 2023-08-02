@@ -1,5 +1,8 @@
 #include "../headers/count_rating_hash_table.h"
 #include "../headers/csv.h"
+#include "../headers/players_hash_table.h"
+#include <stdio.h>
+#include <string.h>
 #include <time.h>
 
 int main() {
@@ -7,10 +10,12 @@ int main() {
 
   start = clock();
 
-  CountRatingHashTable *count_rating = count_rating_hash_table_init(10000);
+  PlayersHashTable *players = players_hash_table_init(10007);
+  CountRatingHashTable *count_rating = count_rating_hash_table_init(10007);
   CountRatingHashTable *teste = count_rating_hash_table_init(
       70000); // Teste de peso de alocação de memória na performance do programa
   CountRatingData rating;
+  PlayerData player;
   rating.total_rating = 1;
   char *row;
   const char *col;
@@ -48,11 +53,23 @@ int main() {
     while (row = CsvReadNextRow(players_handle)) {
 
       col = CsvReadNextCol(row, players_handle); // Leitura do fifa_id
+      player.fifa_id = atoi(col);
+
       col = CsvReadNextCol(row, players_handle); // Leitura do nome
+      strncpy(player.name, col, NAME_LEN);
 
-      while (col = CsvReadNextCol(row, rating_handle))
-        ; // Leitura das posições
+      // Leitura das posições
+      col = CsvReadNextCol(row, players_handle);
+      strncpy(player.positions, col, POSITIONS_LEN);
 
+      players_hash_table_insertion(players, player);
+      /*      if (count_row % 500 == 0) {
+              printf("[fifa_id: %d name: %s positions: ", player.fifa_id,
+                     player.name);
+              printf("%s ", player.positions);
+
+              printf(" ]\n");
+            }*/
       count_row++;
     }
     printf("Players Row = %d\n", count_row);
@@ -68,7 +85,7 @@ int main() {
 
       ++count_row;
     }
-
+    // players_hash_table_print(players);
     printf("Tags Row = %d\n", count_row);
     CsvClose(tags_handle);
     CsvClose(players_handle);

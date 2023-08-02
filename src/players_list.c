@@ -16,11 +16,8 @@ void players_list_init(PlayersList *list) { *list = NULL; }
 
 void players_list_print(PlayersList list) {
   while (list) {
-    printf("[fifa_id: %d, name: %s positions: ", list->data.fifa_id,
-           list->data.name);
-
-    for (int i = 0; list->data.positions[i] != NULL; ++i)
-      printf("%s ", list->data.positions[i]);
+    printf("[fifa_id: %d, name: %s positions: %s", list->data.fifa_id,
+           list->data.name, list->data.positions);
 
     printf("]");
     list = list->next;
