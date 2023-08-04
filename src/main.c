@@ -1,6 +1,7 @@
 #include "../headers/count_rating_hash_table.h"
 #include "../headers/csv.h"
 #include "../headers/players_hash_table.h"
+#include "../headers/trie.h"
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -15,6 +16,8 @@ int main() {
   CountRatingHashTable *teste = count_rating_hash_table_init(
       70000); // Teste de peso de alocação de memória na performance do programa
   CountRatingData rating;
+  TRIE name_search;
+  initialize_trie(&name_search);
   PlayerData player;
   rating.total_rating = 1;
   char *row;
@@ -63,6 +66,8 @@ int main() {
       strncpy(player.positions, col, POSITIONS_LEN);
 
       players_hash_table_insertion(players, player);
+      insert_trie(name_search, player.name, player.fifa_id);
+
       /*      if (count_row % 500 == 0) {
               printf("[fifa_id: %d name: %s positions: ", player.fifa_id,
                      player.name);
@@ -72,6 +77,7 @@ int main() {
             }*/
       count_row++;
     }
+
     printf("Players Row = %d\n", count_row);
 
     // Leitura do arquvo tags.csv
@@ -93,6 +99,51 @@ int main() {
     end = clock();
     printf("Tempo de execução da etapa inicial: %fs\n",
            (double)(end - start) / CLOCKS_PER_SEC);
+
+    // Etapa 2
+
+    char user_input[USER_INPUT] = {'a'};
+    char *tk;
+    int input_num;
+    PlayerData *fifa_search;
+    CountRatingData *rating_search;
+    listnode *prefix_search = initialize_list();
+    while (strncmp(user_input, "quit", USER_INPUT) != 0) {
+      fflush(stdin);
+      printf("$>");
+      fflush(stdin);
+      scanf("%s", user_input);
+      // printf("input: %s\n", user_input);
+
+      if (strncmp(user_input, "fifa", USER_INPUT) == 0) {
+        scanf("%d", &input_num);
+        fflush(stdin);
+        fifa_search = players_hash_table_search(players, input_num);
+
+        if (fifa_search) {
+          rating_search =
+              count_rating_hash_table_search(count_rating, input_num);
+          printf("%d \t %s \t %s \t %d \t %f\n", fifa_search->fifa_id,
+                 fifa_search->name, fifa_search->positions,
+                 rating_search->total_rating,
+                 (double)rating_search->rating_sum /
+                     rating_search->total_rating);
+
+          continue;
+        }
+
+        printf("Miss\n");
+        continue;
+      }
+
+      if (strncmp(user_input, "user", USER_INPUT)) {
+        scanf("%s", player.name);
+        fflush(stdin);
+        prefix_search = list_all(name_search, player.name);
+        print_list(prefix_search);
+        continue;
+      }
+    }
     return 0;
   }
 

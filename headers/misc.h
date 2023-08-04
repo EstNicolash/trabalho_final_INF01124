@@ -18,6 +18,7 @@
 #define ID 10            // Máximo de chars de uma string fifa_id
 #define NUM_TESTES 4
 #define BUFFER_SIZE 150
+#define USER_INPUT 20
 
 #define PRIME 11 // Número primo usado na função de hashing
 typedef unsigned int uint;
@@ -36,8 +37,8 @@ struct palyer_data {
   int fifa_id;
   char name[NAME_LEN];
   char positions[POSITIONS_LEN];
-  CountRatingData *rating;
-  // Série de ponteiros para estruturas de dados diferentes?
+  // CountRatingData *rating;
+  //  Série de ponteiros para estruturas de dados diferentes?
 };
 typedef struct palyer_data PlayerData;
 
