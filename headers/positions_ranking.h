@@ -1,12 +1,11 @@
 #ifndef POSITIONS_RANKING_H
 #define POSITIONS_RANKING_H
+#include "count_rating_hash_table.h"
 #include "misc.h"
 #define POS 3
-#define M 10au
+#define M 10
 #define NUM_POS 13
-uint positions_ranking_pos_decod(char pos[POS]);
-uint positions_ranking_player_set_pos(char pos[POSITIONS_LEN],
-                                      PlayerData player);
+uint positions_ranking_pos_cod(char pos[POS]);
 struct ordered_list {
   double rating;
   PlayerData *player;
@@ -16,21 +15,17 @@ struct ordered_list {
 typedef struct ordered_list *RatingList;
 
 struct rating_pos_table {
-  RatingList *positions[NUM_POS];
+  RatingList positions_table[NUM_POS];
 };
 typedef struct rating_pos_table RatingTable;
 
 void positions_ranking_list_insertion(RatingList *list, double rating,
                                       PlayerData *player);
-/*
-struct positions_ranking_bptree_node {
-  bool is_leaf;
-  int num_keys;
-  int *keys;
+void positions_table_insertion(RatingTable *positions_table,
+                               CountRatingHashTable *count_rating_hash_table,
+                               PlayerData *player);
 
-  struct positions_ranking_bptree_node *next;
-  struct positions_ranking_bptree_node *parent;
-};
-typedef struct positions_ranking_bptree_node PosRBPTreeNode;
-*/
+RatingTable positions_ranking_init();
+
+void positions_ranking_list_print(RatingList list, int n);
 #endif

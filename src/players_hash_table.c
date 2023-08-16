@@ -50,11 +50,12 @@ void players_hash_table_print(PlayersHashTable *players_hash_table) {
  * @param data: Dado do elemento a ser inserido
  *
  */
-void players_hash_table_insertion(PlayersHashTable *players_hash_table,
-                                  PlayerData data) {
+PlayerData *players_hash_table_insertion(PlayersHashTable *players_hash_table,
+                                         PlayerData data) {
 
   // Insere na lista da posição dada pelo hash da chave do dado.
-  players_list_insertion_begin(
+
+  return players_list_insertion_begin(
       &(players_hash_table->players_hash_table[hash_func(
           data.fifa_id, players_hash_table->size)]),
       data);

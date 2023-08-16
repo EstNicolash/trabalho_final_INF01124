@@ -24,6 +24,7 @@ All:
 	$(CC) -c $(SRC)players_hash_table.c -I $(HDR) -o $(OBJ)players_hash_table.o
 	$(CC) -c $(SRC)trie_list.c -I $(HDR) -o $(OBJ)trie_list.o
 	$(CC) -c $(SRC)trie.c -I $(HDR) -o $(OBJ)trie.o
+	$(CC) -c $(SRC)positions_ranking.c -I $(HDR) -o $(OBJ)positions_ranking.o
 	$(CC) $(SRC)$(PROG_NAME).c $(OBJ)*.o -I $(HDR) -o $(BIN)$(PROG_NAME).bin
 debug:
 

@@ -33,13 +33,14 @@ void players_list_print(PlayersList list) {
  * @param data: Dado do elemento a ser isnerido na lista
  *
  */
-void players_list_insertion_begin(PlayersList *list, PlayerData data) {
+PlayerData *players_list_insertion_begin(PlayersList *list, PlayerData data) {
 
   PlayersList new_list = (PlayersList)malloc(sizeof(struct players_list));
   new_list->data = data;
   new_list->next = *list;
 
   *list = new_list;
+  return &(new_list->data);
 }
 /* list_destruct
  *

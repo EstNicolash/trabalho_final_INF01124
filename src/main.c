@@ -1,6 +1,7 @@
 #include "../headers/count_rating_hash_table.h"
 #include "../headers/csv.h"
 #include "../headers/players_hash_table.h"
+#include "../headers/positions_ranking.h"
 #include "../headers/trie.h"
 #include <stdio.h>
 #include <string.h>
@@ -15,20 +16,31 @@ int main() {
   CountRatingHashTable *count_rating = count_rating_hash_table_init(10007);
   CountRatingHashTable *teste = count_rating_hash_table_init(
       70000); // Teste de peso de alocação de memória na performance do programa
+
   CountRatingData rating;
+
+  RatingTable pos_rank = positions_ranking_init();
+
   TRIE name_search;
   initialize_trie(&name_search);
+
   PlayerData player;
+  PlayerData *player_pointer;
   rating.total_rating = 1;
+
   char *row;
   const char *col;
 
   CsvHandle players_handle = CsvOpen(PLAYERS_FILE);
   CsvHandle rating_handle = CsvOpen(RATING_FILE);
   CsvHandle tags_handle = CsvOpen(TAGS_FILE);
-  if (tags_handle && rating_handle && tags_handle) {
 
+  if (tags_handle && rating_handle && tags_handle) {
+    /////////////////////////////////////////////////////////
+    //
     // Leirura do arquivo rating
+    //
+    // /////////////////////////////////////////////////////
     row = CsvReadNextRow(rating_handle);
 
     uint count_row = 0;
@@ -49,8 +61,13 @@ int main() {
     // count_rating_hash_table_print(count_rating);
     printf("Rating Row = %d\n", count_row);
 
+    ///////////////////////////////////////////////////////////
+    ///
     // Leitura do arquivo players.csv
+    //
+    // ///////////////////////////////////////////////////////
     count_row = 0;
+
     row = CsvReadNextRow(
         players_handle); // Descartando informações desnecessárias
     while (row = CsvReadNextRow(players_handle)) {
@@ -65,7 +82,9 @@ int main() {
       col = CsvReadNextCol(row, players_handle);
       strncpy(player.positions, col, POSITIONS_LEN);
 
-      players_hash_table_insertion(players, player);
+      player_pointer = players_hash_table_insertion(players, player);
+      // printf("%d\n", player_pointer->fifa_id);
+      positions_table_insertion(&pos_rank, count_rating, player_pointer);
       insert_trie(name_search, player.name, player.fifa_id);
 
       /*      if (count_row % 500 == 0) {
@@ -100,6 +119,8 @@ int main() {
     printf("Tempo de execução da etapa inicial: %fs\n",
            (double)(end - start) / CLOCKS_PER_SEC);
 
+    positions_ranking_list_print(
+        pos_rank.positions_table[positions_ranking_pos_cod("ST")], 10);
     // Etapa 2
 
     char user_input[USER_INPUT] = {'a'};
@@ -108,6 +129,7 @@ int main() {
     PlayerData *fifa_search;
     CountRatingData *rating_search;
     listnode *prefix_search = initialize_list();
+
     while (strncmp(user_input, "quit", USER_INPUT) != 0) {
       fflush(stdin);
       printf("$>");
