@@ -140,8 +140,8 @@ void positions_ranking_list_print(RatingList list, int n) {
     if (aux == NULL)
       break;
 
-    printf("%d\t%s\t%s\t%f\t%d\n", aux->player->fifa_id, aux->player->name,
-           aux->player->positions,
+    printf("%d \t %s \t %s \t %f \t %d\n", aux->player->fifa_id,
+           aux->player->name, aux->player->positions,
            (double)aux->player->rating->rating_sum /
                aux->player->rating->total_rating,
            aux->player->rating->total_rating);

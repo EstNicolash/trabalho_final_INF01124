@@ -129,6 +129,8 @@ int main() {
     PlayerData *fifa_search;
     CountRatingData *rating_search;
     listnode *prefix_search = initialize_list();
+    char N[100] = {'/0'};
+    char pos[POS];
 
     while (strncmp(user_input, "quit", USER_INPUT) != 0) {
       fflush(stdin);
@@ -137,6 +139,7 @@ int main() {
       scanf("%s", user_input);
       // printf("input: %s\n", user_input);
 
+      // Extra: Pesquisa por Fifa ID
       if (strncmp(user_input, "fifa", USER_INPUT) == 0) {
         scanf("%d", &input_num);
         fflush(stdin);
@@ -158,12 +161,25 @@ int main() {
         continue;
       }
 
-      if (strncmp(user_input, "user", USER_INPUT)) {
+      // 2.1 Pesquisa por prefixo
+      if (strncmp(user_input, "player", USER_INPUT) == 0) {
         scanf("%s", player.name);
         fflush(stdin);
         prefix_search = list_all(name_search, player.name);
         print_list(prefix_search);
         continue;
+      }
+
+      // 2.3 Pesquisa TopN de uma posição
+      if (strncmp(user_input, "top", POS) == 0) {
+        int j = 0;
+        for (int i = 3; i < strlen(user_input); ++i, ++j)
+          N[j] = user_input[i];
+
+        scanf("%s", pos);
+
+        positions_ranking_list_print(
+            pos_rank.positions_table[positions_ranking_pos_cod(pos)], atoi(N));
       }
     }
     return 0;
