@@ -1,3 +1,6 @@
+#ifndef REVIEW_HASH_TABLE_H
+#define REVIEW_HASH_TABLE_H
+
 #include "../headers/ReviewList.h"
 
 struct ReviewHashTable
@@ -14,4 +17,4 @@ void reviews_hash_table_insertion(ReviewHashTable *hashtable1, int reviewing_use
 void reviews_hash_table_print(ReviewHashTable *hashtable1); //imprime todo o conteúdo da hashtable
 
 ReviewList *get_top20_reviews(ReviewHashTable *hashtable1, int user_id); //retorna uma lista de avaliações contendo as 20 maiores avaliações do usuário pesquisado
-
+#endif

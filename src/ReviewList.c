@@ -7,7 +7,8 @@ ReviewList *review_list_insert(ReviewList *list,int reviewing_player_id, int fif
     new_node->fifa_id = fifa_id;
     new_node->rating = rating;
     new_node->next = NULL;
-
+    printf("Inserindo %d\n",debug_count);
+    ++debug_count;
     ReviewList *aux = list;
     if(aux == NULL)
     {

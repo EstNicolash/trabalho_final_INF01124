@@ -22,3 +22,5 @@ uint hash_func(int key, uint size) {
 
   return hash;
 }
+
+uint debug_count;

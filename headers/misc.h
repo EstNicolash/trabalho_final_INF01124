@@ -24,7 +24,7 @@
 typedef unsigned int uint;
 extern uint hash_func(int key, uint size);
 extern uint a_pow10[10]; // Potencias de 10 até 10^10
-
+extern uint debug_count;
 struct count_rating_data {
   int fifa_id;
   int total_rating;
