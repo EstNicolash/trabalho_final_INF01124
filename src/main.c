@@ -4,6 +4,8 @@
 #include "../headers/positions_ranking.h"
 #include "../headers/trie.h"
 #include "../headers/ReviewHashTable.h"
+#include <stdio.h>
+#include <string.h>
 
 int main() {
   debug_count = 0;  
@@ -148,6 +150,7 @@ int main() {
     PlayerData *fifa_search;
     CountRatingData *rating_search;
     ReviewList *user_review_list;
+    char name[NAME_LEN];
 
     review_list_initialize(&user_review_list);
 
@@ -168,7 +171,6 @@ int main() {
 
       // Extra: Pesquisa por Fifa ID
       if (strncmp(user_input, "fifa", USER_INPUT) == 0) {
-
         scanf("%d", &input_num);
         fflush(stdin);
 
@@ -191,11 +193,26 @@ int main() {
 
       // 2.1 Pesquisa por prefixo
       if (strncmp(user_input, "player", USER_INPUT) == 0) {
-        scanf("%s", player.name);
+        int k = 0;
+        scanf("%[^\n]%*c", player.name);
+
+        while(player.name[k] == ' ')
+            ++k;
+
+        for(int i = 0; i < strlen(player.name); ++i, ++k)
+            name[i] = player.name[k];
+
+        //printf("%s %d\n",name, strlen(name));
 
         fflush(stdin);
-        prefix_search = list_all(name_search, player.name);
-        print_list(prefix_search);
+        prefix_search = list_all(name_search, name);
+
+        while(prefix_search){
+            fifa_search = players_hash_table_search(players, prefix_search->player.id);
+            printf("%d \t %s \t %s \t %f \t %d\n", fifa_search->fifa_id, fifa_search->name, fifa_search->positions,(double) fifa_search->rating->rating_sum / fifa_search->rating->total_rating, fifa_search->rating->total_rating);
+            prefix_search = prefix_search->next;
+        }
+
         continue;
       }
 
