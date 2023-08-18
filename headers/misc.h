@@ -52,4 +52,11 @@ struct user_data {
   // ReviewList *review_list
 };
 
+struct user_tag{
+    int user_id; //usuário que gerou a tag
+    int sofifa_id; //id do jogador referente à tag
+    char *tag_text;
+};
+typedef struct user_tag UserTag;
+
 #endif
