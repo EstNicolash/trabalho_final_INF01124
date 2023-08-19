@@ -179,10 +179,8 @@ int main() {
         if (fifa_search) {
           rating_search = count_rating_hash_table_search(count_rating, input_num);
 
-          printf("%d \t %s \t %s \t %d \t %f\n", fifa_search->fifa_id,
-                 fifa_search->name, fifa_search->positions,
-                 rating_search->total_rating,
-                 (double)rating_search->rating_sum /rating_search->total_rating);
+          print_player_info_header();
+          print_player_info(fifa_search);
 
           continue;
         }
@@ -207,9 +205,10 @@ int main() {
         fflush(stdin);
         prefix_search = list_all(name_search, name);
 
+        print_player_info_header();
         while(prefix_search){
             fifa_search = players_hash_table_search(players, prefix_search->player.id);
-            printf("%d \t %s \t %s \t %f \t %d\n", fifa_search->fifa_id, fifa_search->name, fifa_search->positions,(double) fifa_search->rating->rating_sum / fifa_search->rating->total_rating, fifa_search->rating->total_rating);
+            print_player_info(fifa_search);
             prefix_search = prefix_search->next;
         }
 
@@ -231,8 +230,6 @@ int main() {
             user_review_list = user_review_list->next;
 
           }
-
-
 
           continue;
       }

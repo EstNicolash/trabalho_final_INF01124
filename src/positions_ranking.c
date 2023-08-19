@@ -135,16 +135,13 @@ RatingTable positions_ranking_init() {
 
 void positions_ranking_list_print(RatingList list, int n) {
   RatingList aux = list;
+  print_player_info_header();
   for (int i = 0; i < n; i++) {
 
     if (aux == NULL)
       break;
 
-    printf("%d \t %s \t %s \t %f \t %d\n", aux->player->fifa_id,
-           aux->player->name, aux->player->positions,
-           (double)aux->player->rating->rating_sum /
-               aux->player->rating->total_rating,
-           aux->player->rating->total_rating);
+    print_player_info(aux->player);
 
     aux = aux->next;
   }

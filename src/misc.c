@@ -23,4 +23,13 @@ uint hash_func(int key, uint size) {
   return hash;
 }
 
+void print_player_info(PlayerData *player){
+    printf("%-10d \t %-50s \t %15s \t %-3f \t %5d \n\n", player->fifa_id, player->name, player->positions, (double)player->rating->rating_sum / player->rating->total_rating, player->rating->total_rating);
+}
+
+void print_player_info_header(){
+    printf("=======================================================================================================================\n");
+    printf("%-10s \t\t %s \t %55s \t %3s \t %5s \n", "sofifa_id", "name", "player_positions", "rating", "count");
+    printf("_______________________________________________________________________________________________________________________\n\n");
+}
 uint debug_count;

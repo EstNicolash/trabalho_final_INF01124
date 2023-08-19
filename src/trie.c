@@ -155,7 +155,7 @@ void list_nodes(listnode **list_of_players, char *current_word,
       player_aux.name = malloc(sizeof(char) * 32);
       strcpy(player_aux.name, current_word);
       insert_list(list_of_players, player_aux);
-      printf("\n%s", current_word);
+      //printf("\n%s", current_word);
     }
     int i;
     for (i = 0; i < ALPHABET_SIZE; i++) {
