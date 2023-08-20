@@ -16,13 +16,24 @@ uint hash_func(int key, uint size) {
   int i = 0;
 
   while ((int)key / a_pow10[i] != 0) {
-    hash = (hash * PRIME + (((int)key / a_pow10[i]) % 10)) % size;
-    i++;
+    hash = ((hash<<8) * (PRIME<<6) + (((int)key / a_pow10[i]) % 10)) % size;
+    ++i;
   }
 
   return hash;
 }
 
+uint hash_func2(int key, uint size) {
+  uint hash = 0;
+  int i = 0;
+
+  while ((int)key / a_pow10[i] != 0) {
+        hash = (i * 2654435761 * a_pow10[i] + hash) % size;
+      ++i;
+  }
+
+  return hash;
+}
 void print_player_info(PlayerData *player){
     printf("%-10d \t %-50s \t %15s \t %-3f \t %5d \n\n", player->fifa_id, player->name, player->positions, (double)player->rating->rating_sum / player->rating->total_rating, player->rating->total_rating);
 }

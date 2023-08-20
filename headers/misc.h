@@ -19,10 +19,13 @@
 #define NUM_TESTES 4
 #define BUFFER_SIZE 150
 #define USER_INPUT 20
+#define HEAP_SIZE 20
 
 #define PRIME 11 // Número primo usado na função de hashing
 typedef unsigned int uint;
 extern uint hash_func(int key, uint size);
+
+extern uint hash_func2(int key, uint size);
 extern uint a_pow10[10]; // Potencias de 10 até 10^10
 
 extern uint debug_count;
@@ -43,15 +46,36 @@ struct palyer_data {
 };
 typedef struct palyer_data PlayerData;
 
+////////////////////////////
 struct user_review {
   int fifa_id;
   double rating;
 };
-typedef struct user_review user_review;
-struct user_data {
-  int user_id;
-  // ReviewList *review_list
+typedef struct user_review UserReview;
+
+////////////////////////////////
+struct review_heap 
+{
+    int end;
+    UserReview reviews[HEAP_SIZE];
 };
+typedef struct review_heap ReviewHeap;
+
+
+/////////////////////////////
+struct user_data{
+    int user_id;
+    ReviewHeap user_reviews;
+};
+typedef struct user_data UserData;
+
+struct user_list{
+    UserData user_data;
+    struct user_list *next;
+};
+typedef struct user_list* UserList;
+
+
 
 struct user_tag{
     int user_id; //usuário que gerou a tag

@@ -20,8 +20,8 @@ int main() {
 
   PlayersHashTable *players = players_hash_table_init(10007); // Hash Table que guarda os jogadores pelo seu fifa_id
   CountRatingHashTable *count_rating = count_rating_hash_table_init(10007);//Hash Table que acumula as avaiações dos jogadores pelo fifa_id
-  CountRatingHashTable *teste = count_rating_hash_table_init(70000); // Teste de peso de alocação de memória na performance do programa
-  ReviewHashTable *reviews = reviews_hash_table_init(15000);
+  //CountRatingHashTable *teste = count_rating_hash_table_init(70000); // Teste de peso de alocação de memória na performance do programa
+  ReviewHashTable *reviews = reviews_hash_table_init(50000);
   
   
 
@@ -33,6 +33,7 @@ int main() {
   PlayerData player;
   PlayerData *player_pointer;
   CountRatingData rating; 
+  UserReview u_rev;
   int user_id;
   rating.total_rating = 1;//Inicialização do valor inicial da contagem total de avaliações
 
@@ -57,17 +58,20 @@ int main() {
       rating.rating_sum = 0;
 
       col = CsvReadNextCol(row, rating_handle); // Leitura do user_id
-        user_id = atoi(col);
+      user_id = atoi(col);
 
       col = CsvReadNextCol(row, rating_handle); // Leitura do fifa_id
 
       rating.fifa_id = atoi(col);
+      u_rev.fifa_id = rating.fifa_id;
 
       col = CsvReadNextCol(row, rating_handle); // Leitura do rating
       rating.rating_sum = strtod(col, NULL);
+      u_rev.rating = rating.rating_sum;
+      //printf("user: %d fifa: %d rating: %f\n", user_id, u_rev.fifa_id, u_rev.rating);
 
       //Demorando:
-      //reviews_hash_table_insertion(reviews, user_id, rating.fifa_id, rating.rating_sum);
+      reviews_hash_table_insertion(reviews, user_id, u_rev);
       count_rating_hash_table_insertion(count_rating, rating);
       count_row++;
     }
@@ -136,7 +140,7 @@ int main() {
 
     //positions_ranking_list_print(pos_rank.positions_table[positions_ranking_pos_cod("ST")], 10);
     
-    
+    //PRIT(reviews); 
     //////////////////////////////////////////////////
     //
     // Etapa 2 - Interação do usuário
@@ -149,10 +153,10 @@ int main() {
     //Variáveis para o retorno das buscas:
     PlayerData *fifa_search;
     CountRatingData *rating_search;
-    ReviewList *user_review_list;
+    UserData *user_search;
+
     char name[NAME_LEN];
 
-    review_list_initialize(&user_review_list);
 
     listnode *prefix_search = initialize_list();
 
@@ -220,18 +224,20 @@ int main() {
         
           scanf("%d", &input_num);
           fflush(stdin);
+          
+          user_search = reviews_hash_table_search(reviews, input_num);
             
-          user_review_list = get_top20_reviews(reviews, input_num);
-
-          fifa_search = players_hash_table_search(players, user_review_list->fifa_id);
-
-          while(user_review_list){
-            printf("%d \t %s \t %f \t %d \t %f\n", fifa_search->fifa_id, fifa_search->name, (double)fifa_search->rating->rating_sum / fifa_search->rating->total_rating, fifa_search->rating->total_rating, user_review_list->rating);
-            user_review_list = user_review_list->next;
+          for(int i = 0; i < user_search->user_reviews.end; ++i){
+            
+            fifa_search = players_hash_table_search(players, user_search->user_reviews.reviews[i].fifa_id);
+            printf("Rating: %f ", user_search->user_reviews.reviews[i].rating);
+            print_player_info(fifa_search);
 
           }
+            
 
           continue;
+
       }
 
       // 2.3 Pesquisa TopN de uma posição

@@ -46,6 +46,11 @@ void count_rating_list_insertion_end(CountRatingList *list,
 
       aux = aux->next;
     }
+    if (aux->data.fifa_id == data.fifa_id) {
+        aux->data.total_rating++;
+        aux->data.rating_sum += data.rating_sum;
+        return;
+      }
 
     CountRatingList new_list =
         (CountRatingList)malloc(sizeof(struct count_rating_list));

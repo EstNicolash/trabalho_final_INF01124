@@ -1,44 +1,159 @@
 #include "../headers/ReviewHashTable.h"
+#include "../headers/misc.h"
 
 ReviewHashTable *reviews_hash_table_init(int size)
 {
-    ReviewHashTable *hashtable1 = malloc(sizeof(int) + size * sizeof(ReviewList));
+    ReviewHashTable *hashtable1 = malloc(sizeof(int) + size * sizeof(struct user_list));
     hashtable1->size = size;
 
     // Inicizaliza todas listas da tabela
     for (int i = 0; i < size; ++i)
-        review_list_initialize(&hashtable1->hashtable[i]);
+        hashtable1->user_review_hashtable[i] = NULL;
+
 
     return hashtable1;
 }
 
-void reviews_hash_table_insertion(ReviewHashTable *hashtable1, int reviewing_user_id, int fifa_id, double rating)
-{
-    uint index = hash_func(reviewing_user_id,hashtable1->size);
-    hashtable1->hashtable[index] = review_list_insert(hashtable1->hashtable[index],reviewing_user_id,fifa_id,rating);
+
+void reviews_heap_heapfy(ReviewHeap *heap, int root){
+
+    int min = root;
+    int left = 2*root + 1;
+    int right = 2*root + 2;
+
+    if(left < HEAP_SIZE && heap->reviews[min].rating > heap->reviews[left].rating)
+        min = left;
+
+    if(right < HEAP_SIZE && heap->reviews[min].rating > heap->reviews[right].rating)
+        min = right;
+
+    if(min != root){
+        UserReview aux = heap->reviews[root];
+        heap->reviews[root] = heap->reviews[min];
+        heap->reviews[min] = aux;
+
+        reviews_heap_heapfy(heap, min);
+    }
+
 }
 
-void reviews_hash_table_print(ReviewHashTable *hashtable1)
-{
-    for (uint i = 0; i < hashtable1->size; i++)
-    {
-        if (hashtable1->hashtable[i])
-        {
-            printf("\n[%d][Node]", i);
-            review_list_print(hashtable1->hashtable[i]);
-        }
-        else
-        {
-            printf("\n[%d][Empty Node]", i);
-        }
+void review_heap_init(ReviewHeap *heap){
+    heap->end = 0;
+    
+    for(int i = 0; i < HEAP_SIZE; ++i){
+        heap->reviews[i].fifa_id = 0;
+        heap->reviews[i].rating = -1;
+    }
+
+}
+
+void review_heap_insertion(ReviewHeap *heap, UserReview user_review){
+    
+/*    for(int i = 0; i < heap->end; ++i)
+        printf("[Fifa: %d  Rating: %f]",heap->reviews[i].fifa_id, heap->reviews[i].rating);
+*/
+ //   printf("\n\n");
+
+    //if(heap->end == HEAP_SIZE){
+        if(user_review.rating < heap->reviews[0].rating)
+            return;
+        
+        heap->reviews[0] = user_review;
+        reviews_heap_heapfy(heap, 0);
+
+        if(heap->end != HEAP_SIZE)
+            ++heap->end;
+        return;
+    //}
+    
+    //heap->reviews[heap->end] = user_review;
+    //review_heap_heapfy_insert(heap, heap->end);
+    //++heap->end;
+    
+}
+
+void review_heap_heapfy_insert(ReviewHeap *heap, int index){
+    int root = (index - 1) / 2;
+
+    if(heap->reviews[root].rating > heap->reviews[index].rating){
+
+        UserReview aux = heap->reviews[root];
+        heap->reviews[root] = heap->reviews[index];
+        heap->reviews[index] = aux;
+
+        review_heap_heapfy_insert(heap,root);
     }
 }
 
-ReviewList *get_top20_reviews(ReviewHashTable *hashtable1, int user_id)
-{
-    int hash = hash_func(user_id, hashtable1->size);
-    return list_highest_reviews(hashtable1->hashtable[hash], user_id);
+
+void user_list_insertion(UserList *user_list, int user_id, UserReview user_review){
+
+    UserList aux = *user_list;
+    //printf("User: %d", user_id);
+    //printf("User: %d fifa: %d rating: %f\n", user_id, user_review.fifa_id, user_review.rating);
+    if(aux){
+
+        while(aux->next){
+            if(aux->user_data.user_id == user_id){
+                review_heap_insertion(&(aux->user_data.user_reviews), user_review);
+                return;
+            }
+
+            aux = aux->next;
+        }
+
+        if(aux->user_data.user_id == user_id){
+            review_heap_insertion(&(aux->user_data.user_reviews), user_review);
+            return;
+        }
+
+        
+        UserList new_user = malloc(sizeof(struct user_list));
+        new_user->user_data.user_id = user_id;
+        new_user->next = NULL;
+        review_heap_init(&new_user->user_data.user_reviews);
+        review_heap_insertion(&(new_user->user_data.user_reviews), user_review);
+        aux->next = new_user;
+
+        return;
+    }
+
+    UserList new_user = malloc(sizeof(struct user_list));
+
+    new_user->user_data.user_id = user_id;
+    new_user->next = NULL;
+    review_heap_init(&new_user->user_data.user_reviews);
+    review_heap_insertion((&new_user->user_data.user_reviews), user_review);
+
+    *user_list = new_user;
+
+    return;
+
 }
 
+void reviews_hash_table_insertion(ReviewHashTable *hashtable1, int user_id, UserReview user_review)
+{
+    uint index = hash_func(user_id,hashtable1->size);
+    user_list_insertion(&(hashtable1->user_review_hashtable[index]), user_id, user_review);
+
+}
+
+UserData *users_list_search(UserList list, int id){
+
+    while(list){
+
+        if(list->user_data.user_id == id)
+            return &(list->user_data);
+
+        list = list->next;
+    }
+
+    return NULL;
+
+}
+UserData* reviews_hash_table_search(ReviewHashTable *hashtable, int user_id){
 
 
+    return users_list_search(hashtable->user_review_hashtable[hash_func(user_id, hashtable->size)], user_id);
+
+}
