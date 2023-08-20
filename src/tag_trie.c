@@ -16,12 +16,17 @@ void initialize_tag_trie(TAG_TRIE *tree)
 
 uint getIndexFromChar(char char_value)
 {
-    if(char_value == ' ')
+    switch(char_value)
     {
-        return 26; //último índice do vetor representa espaço
-    }
-    else
-    {
+    case ' ':
+        return 26;
+    case '-':
+        return 27;
+    case '.':
+        return 28;
+    case ',':
+        return 29;
+    default:
         if((int)char_value < LOWER_START) //se é maiúscula
             return ((int) char_value) - UPPER_START;
         return ((int) char_value) - LOWER_START;
