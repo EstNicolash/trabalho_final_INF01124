@@ -18,11 +18,11 @@ uint getIndexFromChar(char char_value)
 {
     if(char_value == ' ')
     {
-        return 26; //último índice do vetor representa espaço
+        return 26; //Ãºltimo Ã­ndice do vetor representa espaÃ§o
     }
     else
     {
-        if((int)char_value < LOWER_START) //se é maiúscula
+        if((int)char_value < LOWER_START) //se Ã© maiÃºscula
             return ((int) char_value) - UPPER_START;
         return ((int) char_value) - LOWER_START;
     }
@@ -34,6 +34,7 @@ tag_trienode *initialize_tag_trienode(char value)
     tag_trienode *new_node;
     new_node = (tag_trienode *)malloc(sizeof(tag_trienode));
     new_node->list_of_ids = NULL;
+    new_node->last_of_list = NULL;
     for (i = 0; i < TRIE_ALPHABET_SIZE; i++)
     {
         new_node->children[i] = NULL;
@@ -60,19 +61,20 @@ void insert_tag_trie(TAG_TRIE tree, UserTag new_tag)
     tag_trienode *current_node = tree.root;
     char current_char = '\0';
     tag_trienode *aux = NULL;
+    id_list* new_id;
 
     while (offset < length)
     {
         current_char = getCharFromTag(new_tag.tag_text, offset);
         if (hasTagChild(current_node,
-                        current_char)) // se o nodo já possui a próxima letra,
-            // pula para ela (índice da letra no vetor
-            // é seu valor ascii)
+                        current_char)) // se o nodo jÃ¡ possui a prÃ³xima letra,
+            // pula para ela (Ã­ndice da letra no vetor
+            // Ã© seu valor ascii)
         {
             aux = current_node->children[getIndexFromChar(current_char)];
             current_node = aux;
         }
-        else   // senão, aloca nova letra/nodo
+        else   // senÃ£o, aloca nova letra/nodo
         {
             aux = initialize_tag_trienode(current_char);
             current_node->children[getIndexFromChar(current_char)] = aux;
@@ -80,7 +82,19 @@ void insert_tag_trie(TAG_TRIE tree, UserTag new_tag)
         }
         offset++;
     }
-    insert_id_list(&current_node->list_of_ids,new_tag.sofifa_id);
+    if(!current_node->list_of_ids)
+    {
+        insert_id_list(&current_node->list_of_ids,new_tag.sofifa_id);
+        current_node->last_of_list = current_node->list_of_ids;
+    }
+    else
+    {
+        new_id = (id_list *)malloc(sizeof(id_list));
+        new_id->player_id = new_tag.sofifa_id;
+        new_id->next = NULL;
+        current_node->last_of_list->next = new_id;
+        current_node->last_of_list = new_id;
+    }
     //printf("\nINSERTED %d",length);
 }
 
