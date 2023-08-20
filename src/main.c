@@ -134,7 +134,7 @@ int main() {
             col = CsvReadNextCol(row, tags_handle);  // Leitura da Tag
             strncpy(tag_row.tag_text, col, NAME_LEN);
 
-            printf("User: %d Fifa: %d Tag: %s\n", tag_row.user_id, tag_row.sofifa_id, tag_row.tag_text);
+            //printf("User: %d Fifa: %d Tag: %s\n", tag_row.user_id, tag_row.sofifa_id, tag_row.tag_text);
             insert_tag_trie(tags, tag_row);
 
             ++count_row;
@@ -212,7 +212,11 @@ int main() {
                 continue;
             }
 
-            // 2.1 Pesquisa por prefixo
+            /////////////////////////////////////////
+            //
+            //  2.1 Pesquisa por prefixo
+            //
+            // ////////////////////////////////////
             if (strncmp(user_input, "player", USER_INPUT) == 0) {
                 int k = 0;
                 scanf("%[^\n]%*c", player.name);
@@ -243,11 +247,17 @@ int main() {
 
                 user_search = reviews_hash_table_search(reviews, input_num);
 
+                if (user_search == NULL) continue;
+
                 print_player_info_header_mais_rating();
 
                 for (int i = 0; i < user_search->user_reviews.end; ++i) {
-                    fifa_search = players_hash_table_search(players, user_search->user_reviews.reviews[i].fifa_id);
-                    print_player_info_mais_rating(fifa_search, user_search->user_reviews.reviews[i].rating);
+                    //printf("%d %f", user_search->user_reviews.reviews[i].fifa_id, user_search->user_reviews.reviews[i].rating);
+
+                    if (user_search->user_reviews.reviews[i].fifa_id != -1) {
+                        fifa_search = players_hash_table_search(players, user_search->user_reviews.reviews[i].fifa_id);
+                        print_player_info_mais_rating(fifa_search, user_search->user_reviews.reviews[i].rating);
+                    }
                 }
 
                 continue;

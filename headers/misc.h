@@ -56,6 +56,7 @@ typedef struct user_review UserReview;
 ////////////////////////////////
 struct review_heap {
     int end;
+    bool sorted;
     UserReview reviews[HEAP_SIZE];
 };
 typedef struct review_heap ReviewHeap;
