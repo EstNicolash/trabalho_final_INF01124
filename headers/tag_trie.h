@@ -1,7 +1,7 @@
 #include "id_list.h"
 #include "misc.h"
 
-#define TRIE_ALPHABET_SIZE 30  // tamanho do vetor de descendentes para o nodo
+#define TRIE_ALPHABET_SIZE 256  // tamanho do vetor de descendentes para o nodo
 #define SPACE_INDEX 26
 #define LOWER_START 97
 #define LOWER_END 122
