@@ -49,12 +49,6 @@ void review_heap_init(ReviewHeap *heap){
 
 void review_heap_insertion(ReviewHeap *heap, UserReview user_review){
     
-/*    for(int i = 0; i < heap->end; ++i)
-        printf("[Fifa: %d  Rating: %f]",heap->reviews[i].fifa_id, heap->reviews[i].rating);
-*/
- //   printf("\n\n");
-
-    //if(heap->end == HEAP_SIZE){
         if(user_review.rating < heap->reviews[0].rating)
             return;
         
@@ -63,12 +57,7 @@ void review_heap_insertion(ReviewHeap *heap, UserReview user_review){
 
         if(heap->end != HEAP_SIZE)
             ++heap->end;
-        return;
-    //}
     
-    //heap->reviews[heap->end] = user_review;
-    //review_heap_heapfy_insert(heap, heap->end);
-    //++heap->end;
     
 }
 
