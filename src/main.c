@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -6,6 +7,7 @@
 #include "../headers/csv.h"
 #include "../headers/players_hash_table.h"
 #include "../headers/positions_ranking.h"
+#include "../headers/tag_trie.h"
 #include "../headers/trie.h"
 
 int main() {
@@ -24,6 +26,9 @@ int main() {
     //CountRatingHashTable *teste = count_rating_hash_table_init(70000); // Teste de peso de alocação de memória na performance do programa
     ReviewHashTable *reviews = reviews_hash_table_init(50000);
 
+    TAG_TRIE tags;
+    initialize_tag_trie(&tags);
+
     RatingTable pos_rank = positions_ranking_init();  //Tabela Hash que guarda as avaliações dos jogadores
 
     TRIE name_search;  //Trie dos nomes do jogadores
@@ -33,6 +38,7 @@ int main() {
     PlayerData *player_pointer;
     CountRatingData rating;
     UserReview u_rev;
+    UserTag tag_row;
     int user_id;
     rating.total_rating = 1;  //Inicialização do valor inicial da contagem total de avaliações
 
@@ -42,7 +48,7 @@ int main() {
 
     //Abertura dos arquivos
     CsvHandle players_handle = CsvOpen(PLAYERS_FILE);
-    CsvHandle rating_handle = CsvOpen(RATING_FILE);
+    CsvHandle rating_handle = CsvOpen(MINIRATING_FILE);
     CsvHandle tags_handle = CsvOpen(TAGS_FILE);
 
     if (tags_handle && rating_handle && tags_handle) {
@@ -113,17 +119,29 @@ int main() {
         // ///////////////////////////////////////////////////////
 
         row = CsvReadNextRow(tags_handle);  //Informação "inutil"
+        printf("%s\n", row);
         count_row = 0;
+        tag_row.tag_text = malloc(sizeof(char) * NAME_LEN);
 
         while (row = CsvReadNextRow(tags_handle)) {
             col = CsvReadNextCol(row, tags_handle);  // Leitura do user_id
+            tag_row.user_id = atoi(col);
+
             col = CsvReadNextCol(row, tags_handle);  // Leitura do fifa_id
+            tag_row.sofifa_id = atoi(col);
+
             col = CsvReadNextCol(row, tags_handle);  // Leitura da Tag
+            strncpy(tag_row.tag_text, col, NAME_LEN);
+
+            printf("User: %d Fifa: %d Tag: %s\n", tag_row.user_id, tag_row.sofifa_id, tag_row.tag_text);
+            insert_tag_trie(tags, tag_row);
 
             ++count_row;
         }
 
         printf("Tags Row = %d\n", count_row);
+
+        //Fechar arquivos
         CsvClose(tags_handle);
         CsvClose(players_handle);
         CsvClose(rating_handle);
@@ -132,9 +150,6 @@ int main() {
 
         printf("Tempo de execução da etapa inicial: %fs\n", (double)(end - start) / CLOCKS_PER_SEC);
 
-        //positions_ranking_list_print(pos_rank.positions_table[positions_ranking_pos_cod("ST")], 10);
-
-        //PRIT(reviews);
         //////////////////////////////////////////////////
         //
         // Etapa 2 - Interação do usuário
@@ -144,6 +159,13 @@ int main() {
         char user_input[USER_INPUT] = {'a'};  //Entrada do usuário, escolha do tipo de pesquisa
         int input_num;
 
+        char N[50] = {'/0'};  //Valor N da pesquisa topN
+        char pos_input[POS + 2];
+        char pos[POS];
+        char tags_buffer[NAME_LEN];
+        char *tk;
+        char list_of_tags[NAME_LEN][NAME_LEN];
+        int num_tags = 0;
         //Variáveis para o retorno das buscas:
         PlayerData *fifa_search;
         CountRatingData *rating_search;
@@ -153,8 +175,8 @@ int main() {
 
         listnode *prefix_search = initialize_list();
 
-        char N[50] = {'/0'};  //Valor N da pesquisa topN
-        char pos[POS];        //
+        id_list *l1 = initialize_id_list();
+        id_list *l2 = initialize_id_list();
 
         while (strncmp(user_input, "quit", USER_INPUT) != 0) {
             fflush(stdin);
@@ -217,11 +239,10 @@ int main() {
                 user_search = reviews_hash_table_search(reviews, input_num);
 
                 print_player_info_header_mais_rating();
+
                 for (int i = 0; i < user_search->user_reviews.end; ++i) {
                     fifa_search = players_hash_table_search(players, user_search->user_reviews.reviews[i].fifa_id);
                     print_player_info_mais_rating(fifa_search, user_search->user_reviews.reviews[i].rating);
-                    //printf("Rating: %f ", user_search->user_reviews.reviews[i].rating);
-                    //print_player_info(fifa_search);
                 }
 
                 continue;
@@ -234,10 +255,39 @@ int main() {
                 //Determina o valor de N
                 for (int i = 3; i < strlen(user_input); ++i, ++j) N[j] = user_input[i];
 
-                scanf("%s", pos);  //posição
+                scanf("%s", pos_input);  //posição
+                pos[0] = pos_input[1];
+                pos[1] = pos_input[2];
+
+                if (pos_input[3] != 39)
+                    pos[2] = pos_input[3];
+                else
+                    pos[2] = 0;
 
                 positions_ranking_list_print(pos_rank.positions_table[positions_ranking_pos_cod(pos)], atoi(N));
 
+                continue;
+            }
+
+            //2.4 Pesquisa por Tags
+            if (strncmp((user_input), "tags", 4) == 0) {
+                num_tags = 0;
+                scanf("%99[^\n]", tags_buffer);
+
+                printf("%s\n", tags_buffer);
+
+                tk = strtok(tags_buffer, " ''");
+                printf("%s\n", tk);
+                strncpy(list_of_tags[num_tags], tk, NAME_LEN);
+                ++num_tags;
+
+                while (tk = strtok(NULL, " ''")) {
+                    printf("%s\n", tk);
+                    strncpy(list_of_tags[num_tags], tk, NAME_LEN);
+                    ++num_tags;
+                }
+
+                //l1 = intersection_multiple(tags, list_of_tags, num_tags);
                 continue;
             }
         }

@@ -26,6 +26,8 @@ All:
 	$(CC) -c $(SRC)trie.c -I $(HDR) -o $(OBJ)trie.o
 	$(CC) -c $(SRC)positions_ranking.c -I $(HDR) -o $(OBJ)positions_ranking.o
 	$(CC) -c $(SRC)ReviewHashTable.c -I $(HDR) -o $(OBJ)ReviewHashTable.o
+	$(CC) -c $(SRC)id_list.c -I $(HDR) -o $(OBJ)id_list.o
+	$(CC) -c $(SRC)tag_trie.c -I $(HDR) -o $(OBJ)tag_trie.o
 	$(CC) $(SRC)$(PROG_NAME).c $(OBJ)*.o -I $(HDR) -o $(BIN)$(PROG_NAME).bin
 debug:
 	$(CC) -g -c $(SRC)misc.c -I $(HDR) -o $(OBJ)misc.o
@@ -38,6 +40,8 @@ debug:
 	$(CC) -g -c $(SRC)trie.c -I $(HDR) -o $(OBJ)trie.o
 	$(CC) -g -c $(SRC)positions_ranking.c -I $(HDR) -o $(OBJ)positions_ranking.o
 	$(CC) -g -c $(SRC)ReviewHashTable.c -I $(HDR) -o $(OBJ)ReviewHashTable.o
+	$(CC) -g -c $(SRC)id_list.c -I $(HDR) -o $(OBJ)id_list.o
+	$(CC) -g -c $(SRC)tag_trie.c -I $(HDR) -o $(OBJ)tag_trie.o
 	$(CC) -g $(SRC)$(PROG_NAME).c $(OBJ)*.o -I $(HDR) -o $(BIN)$(PROG_NAME)_debug.bin
 run:
 	$(BIN)$(PROG_NAME).bin

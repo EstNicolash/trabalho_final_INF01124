@@ -6,8 +6,7 @@
  player_id: id do jogador
  next: ponteiro para próxima estrutura id_list
  */
-struct id_list
-{
+struct id_list {
     int player_id;
     struct id_list *next;
 };
