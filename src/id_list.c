@@ -7,6 +7,7 @@ id_list *initialize_id_list()
 
 void insert_id_list(id_list **list1, int player_id)
 {
+    int repeated = 0;
     id_list *new_node = (id_list *)malloc(sizeof(id_list));
     new_node->player_id = player_id;
     new_node->next = NULL;
@@ -18,11 +19,19 @@ void insert_id_list(id_list **list1, int player_id)
     }
     else
     {
-        while (aux->next != NULL)
-        {
-            aux = aux->next;
-        }
-        aux->next = new_node;
+        if(aux->player_id == player_id)
+            repeated = 1;
+        else
+            while (aux->next != NULL && !repeated)
+            {
+                if(aux->player_id == player_id)
+                    repeated = 1;
+                aux = aux->next;
+            }
+        if(!repeated)
+            aux->next = new_node;
+        else
+            free(new_node);
     }
 }
 
@@ -55,7 +64,7 @@ void free_id_list(id_list *list1)
     }
 }
 
-int isIDPresent(id_list *list1, int player_id) //verifica se um id de jogador est· contido na lista
+int isIDPresent(id_list *list1, int player_id) //verifica se um id de jogador est√° contido na lista
 {
     id_list *aux = list1;
     if (aux != NULL)
