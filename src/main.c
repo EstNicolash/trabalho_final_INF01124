@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "../headers/ReviewHashTable.h"
@@ -163,8 +164,12 @@ int main() {
         char pos_input[POS + 2];
         char pos[POS];
         char tags_buffer[NAME_LEN];
+        char delim[1] = {39};
         char *tk;
-        char list_of_tags[NAME_LEN][NAME_LEN];
+        char **list_of_tags;
+        //        list_of_tags = malloc(sizeof(char *) * NAME_LEN);
+        //      for (int i = 0; i < NAME_LEN; ++i) list_of_tags[i] = malloc(sizeof(char) * NAME_LEN);
+
         int num_tags = 0;
         //Variáveis para o retorno das buscas:
         PlayerData *fifa_search;
@@ -274,20 +279,21 @@ int main() {
                 num_tags = 0;
                 scanf("%99[^\n]", tags_buffer);
 
-                printf("%s\n", tags_buffer);
+                //printf("%s\n", tags_buffer);
+                list_of_tags = list_tags(tags_buffer, &num_tags);
 
-                tk = strtok(tags_buffer, " ''");
-                printf("%s\n", tk);
-                strncpy(list_of_tags[num_tags], tk, NAME_LEN);
-                ++num_tags;
+                //for (int i = 0; i < num_tags; ++i) printf("%s\n", list_of_tags[i]);
 
-                while (tk = strtok(NULL, " ''")) {
-                    printf("%s\n", tk);
-                    strncpy(list_of_tags[num_tags], tk, NAME_LEN);
-                    ++num_tags;
+                l1 = intersection_multiple(tags, list_of_tags, num_tags);
+
+                print_player_info_header();
+
+                while (l1) {
+                    fifa_search = players_hash_table_search(players, l1->player_id);
+                    print_player_info(fifa_search);
+                    l1 = l1->next;
                 }
 
-                //l1 = intersection_multiple(tags, list_of_tags, num_tags);
                 continue;
             }
         }

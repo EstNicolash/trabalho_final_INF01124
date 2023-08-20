@@ -79,9 +79,3 @@ id_list *intersection(id_list *list1, id_list *list2);
 
 id_list *intersection_multiple(TAG_TRIE tree, char *tags[], int num_tags);
 //recebe um vetor de tags e retorna os id's dos jogadores que possuem todas as tags simultaneamente
-
-id_list *intersection(id_list *list1, id_list *list2);
-//retorna uma lista de id's jogadores contendo apenas os id's que estão nas duas listas simulateamente
-
-id_list *intersection_multiple(TAG_TRIE tree, char *tags[], int num_tags);
-//recebe um vetor de tags e retorna os id's dos jogadores que possuem todas as tags simultaneamente

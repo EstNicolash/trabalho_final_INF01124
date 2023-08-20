@@ -85,4 +85,5 @@ void print_player_info(PlayerData *player);
 void print_player_info_header();
 void print_player_info_header_mais_rating();
 void print_player_info_mais_rating(PlayerData *player, double rating);
+char **list_tags(char tag_list[NAME_LEN], int *num_tags);
 #endif

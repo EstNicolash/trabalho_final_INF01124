@@ -56,3 +56,33 @@ void print_player_info_header_mais_rating() {
     printf("_______________________________________________________________________________________________________________________\n\n");
 }
 uint debug_count;
+
+char **list_tags(char tag_list[NAME_LEN], int *num_tags) {
+    *num_tags = 0;
+    char **list_of_tags;
+    list_of_tags = malloc(sizeof(char *) * NAME_LEN);
+    for (int i = 0; i < NAME_LEN; ++i) list_of_tags[i] = malloc(sizeof(char) * NAME_LEN);
+
+    int matrix_index = 0;
+
+    for (int i = 0; i < NAME_LEN; ++i) {
+        int j = 0;
+
+        if (tag_list[i] == 39) {
+            ++i;
+
+            while (tag_list[i] != 39) {
+                list_of_tags[matrix_index][j] = tag_list[i];
+                ++i;
+                ++j;
+            }
+
+            list_of_tags[matrix_index][j] = '\0';
+
+            ++matrix_index;
+            ++(*num_tags);
+        }
+    }
+
+    return list_of_tags;
+}
