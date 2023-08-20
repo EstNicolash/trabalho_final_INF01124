@@ -49,6 +49,18 @@ void review_heap_insertion(ReviewHeap *heap, UserReview user_review) {
     if (heap->end != HEAP_SIZE) ++heap->end;
 }
 
+void review_heap_heapsort(ReviewHeap *heap) {
+    heap->sorted = true;
+    UserReview aux;
+    heap->end = HEAP_SIZE - 1;
+    for (int i = heap->end; i > 0; --i) {
+        aux = heap->reviews[0];
+        heap->reviews[0] = heap->reviews[heap->end];
+        heap->reviews[heap->end] = aux;
+        --heap->end;
+        reviews_heap_heapfy(heap, 0);
+    }
+}
 void review_heap_heapfy_insert(ReviewHeap *heap, int index) {
     int root = (index - 1) / 2;
 

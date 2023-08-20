@@ -49,7 +49,7 @@ int main() {
 
     //Abertura dos arquivos
     CsvHandle players_handle = CsvOpen(PLAYERS_FILE);
-    CsvHandle rating_handle = CsvOpen(MINIRATING_FILE);
+    CsvHandle rating_handle = CsvOpen(RATING_FILE);
     CsvHandle tags_handle = CsvOpen(TAGS_FILE);
 
     if (tags_handle && rating_handle && tags_handle) {
@@ -251,7 +251,9 @@ int main() {
 
                 print_player_info_header_mais_rating();
 
-                for (int i = 0; i < user_search->user_reviews.end; ++i) {
+                if (!user_search->user_reviews.sorted) review_heap_heapsort(&(user_search->user_reviews));
+
+                for (int i = 0; i < HEAP_SIZE; ++i) {
                     //printf("%d %f", user_search->user_reviews.reviews[i].fifa_id, user_search->user_reviews.reviews[i].rating);
 
                     if (user_search->user_reviews.reviews[i].fifa_id != -1) {
