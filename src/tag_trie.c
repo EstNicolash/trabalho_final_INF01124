@@ -16,25 +16,7 @@ void initialize_tag_trie(TAG_TRIE *tree)
 
 uint getIndexFromChar(char char_value)
 {
-    int int_value = (int)char_value;
-    switch(char_value)
-    {
-    case ' ':
-        return SPACE_INDEX;
-    case '.':
-        return PERIOD_INDEX;
-    case '-':
-        return HYPHEN_INDEX;
-    default:
-        break;
-    }
-    if(int_value >= LOWER_START)
-        return int_value - LOWER_START;
-    else
-        if(char_value >= UPPER_START)
-            return int_value - UPPER_START;
-        else
-            return int_value - NUMBERS_START;
+    return ((int)char_value) - 32;
 }
 
 tag_trienode *initialize_tag_trienode(char value)
