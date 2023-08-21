@@ -1,5 +1,8 @@
 #include "../headers/misc.h"
+
+//Vetor com potencias de 10 para acesso rápido
 uint a_pow10[10] = {1, 10, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000};
+
 /* hash_func
  *
  * @brief: Funçção de hash, usando um valor inteiro como base para efetuar o
@@ -21,7 +24,7 @@ uint hash_func(int key, uint size) {
 
     return hash;
 }
-
+/*
 uint hash_func2(int key, uint size) {
     uint hash = 0;
     int i = 0;
@@ -32,8 +35,9 @@ uint hash_func2(int key, uint size) {
     }
 
     return hash;
-}
+}*/
 
+//Funções de print para a tabela no console
 void print_player_info(PlayerData *player) {
     printf("%-10d \t %-50s \t %15s \t %-3f \t %5d \n\n", player->fifa_id, player->name, player->positions,
            (double)player->rating->rating_sum / player->rating->total_rating, player->rating->total_rating);
@@ -55,8 +59,22 @@ void print_player_info_header_mais_rating() {
     printf("%-10s \t %-50s \t %15s \t %s \t %s \n", "sofifa_id", "name", "global rating", "count", "rating");
     printf("_______________________________________________________________________________________________________________________\n\n");
 }
+
+//Contador para debugar
 uint debug_count;
 
+/* list_tags
+ *
+ *  @brief: Processa a entrada <lista de tags> para a busca pela tag (pesquisa 2.4).
+ *
+ *  @param tag_list: A <lista de tags> antes de ser devidamente processada, isto é, a linha intera do buffer do console.
+ *  @param num_tags: Ponteiro para a quantidade de tags na lista de tags.
+ *
+ *  @return list_of_tags: Um array de strings com cada posição contendo uma tag.
+ *
+ *  Exemplo: tag_list = 'ab a''sa'  'ma', então list_of_tags = {"ab a", "sa", "ma"} e num_tags = 3 
+ *
+ */
 char **list_tags(char tag_list[NAME_LEN], int *num_tags) {
     *num_tags = 0;
     char **list_of_tags;
@@ -68,6 +86,7 @@ char **list_tags(char tag_list[NAME_LEN], int *num_tags) {
     for (int i = 0; i < NAME_LEN; ++i) {
         int j = 0;
 
+        //Processa uma tag apartir do primeiro ' até o último '.
         if (tag_list[i] == 39) {
             ++i;
 
