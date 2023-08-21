@@ -125,7 +125,7 @@ int main() {
             col = CsvReadNextCol(row, tags_handle);  // Leitura da Tag
                                                      //
             strncpy(tag_row.tag_text, col, NAME_LEN);
-            printf("%d %d %s\n", tag_row.user_id, tag_row.sofifa_id, tag_row.tag_text);
+            //            printf("%d %d %s\n", tag_row.user_id, tag_row.sofifa_id, tag_row.tag_text);
             insert_tag_trie(tags, tag_row);
 
             ++count_row;
