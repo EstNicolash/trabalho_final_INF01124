@@ -33,24 +33,27 @@ int hasTagChild(tag_trienode *node1, char char_value) {
     return node1->children[getIndexFromChar(char_value)] != 0;
 }
 
-void insert_tag_trie(TAG_TRIE tree, UserTag new_tag) {
+void insert_tag_trie(TAG_TRIE tree, UserTag new_tag)
+{
     int offset = 0;
     int length = strlen(new_tag.tag_text);
     tag_trienode *current_node = tree.root;
     char current_char = '\0';
     tag_trienode *aux = NULL;
-    id_list *new_id;
+    id_list* new_id;
 
-    while (offset < length) {
+    while (offset < length)
+    {
         current_char = getCharFromTag(new_tag.tag_text, offset);
         if (hasTagChild(current_node,
-                        current_char))  // se o nodo já possui a próxima letra,
-        // pula para ela (índice da letra no vetor
-        // é seu valor ascii)
+                        current_char)) // se o nodo já possui a próxima letra,
+            // pula para ela (índice da letra no vetor
+            // é seu valor ascii)
         {
             aux = current_node->children[getIndexFromChar(current_char)];
             current_node = aux;
-        } else  // senão, aloca nova letra/nodo
+        }
+        else   // senão, aloca nova letra/nodo
         {
             aux = initialize_tag_trienode(current_char);
             current_node->children[getIndexFromChar(current_char)] = aux;
@@ -58,8 +61,8 @@ void insert_tag_trie(TAG_TRIE tree, UserTag new_tag) {
         }
         offset++;
     }
-    insert_id_list(&current_node->list_of_ids, new_tag.sofifa_id);
-    //printf("\nINSERTED %d",length);
+    if(!isIDPresent(current_node->list_of_ids,new_tag.sofifa_id))
+        insert_id_list(&current_node->list_of_ids,new_tag.sofifa_id);
 }
 
 void print_tag_trienode(tag_trienode *node1) {
@@ -134,24 +137,31 @@ id_list *intersection(id_list *list1, id_list *list2) {
     return new_list;
 }
 
-id_list *intersection_multiple(TAG_TRIE tree, char *tags[], int num_tags) {
+id_list *intersection_multiple(TAG_TRIE tree, char *tags[], int num_tags)
+{
     int current = 0;
     id_list *temp1 = initialize_id_list();
     id_list *temp2 = initialize_id_list();
     id_list *intersection_temp = initialize_id_list();
 
-    if (num_tags > 0)
-        if (num_tags > 1) {
+    if(num_tags > 0)
+    {
+       if(num_tags > 1)
+        {
             intersection_temp = list_all_ids(tree, tags[0]);
-            for (current = 1; current < num_tags; current++) {
+            for(current = 1; current < num_tags; current++)
+            {
                 temp1 = intersection_temp;
                 temp2 = list_all_ids(tree, tags[current]);
-                intersection_temp = intersection(intersection_temp, temp2);
+                intersection_temp = intersection(intersection_temp,temp2);
                 free_id_list(temp1);
                 free_id_list(temp2);
             }
-        } else
-            intersection_temp = list_all_ids(tree, tags[0]);
-
+        }
+        else
+            intersection_temp = list_all_ids(tree,tags[0]);
+    }
+    else
+        intersection_temp = NULL;
     return intersection_temp;
 }
