@@ -28,7 +28,7 @@ All:
 	$(CC) -c $(SRC)ReviewHashTable.c -I $(HDR) -o $(OBJ)ReviewHashTable.o
 	$(CC) -c $(SRC)id_list.c -I $(HDR) -o $(OBJ)id_list.o
 	$(CC) -c $(SRC)tag_trie.c -I $(HDR) -o $(OBJ)tag_trie.o
-	$(CC) $(SRC)$(PROG_NAME).c $(OBJ)*.o -I $(HDR) -o $(BIN)$(PROG_NAME).bin
+	$(CC) $(SRC)$(PROG_NAME).c $(OBJ)*.o -I $(HDR) -o $(BIN)$(PROG_NAME).exe
 debug:
 	$(CC) -g -c $(SRC)misc.c -I $(HDR) -o $(OBJ)misc.o
 	$(CC) -g -c $(SRC)csv.c -I $(HDR) -o $(OBJ)csv.o

@@ -1,12 +1,12 @@
 /* (c) 2019 Jan Doczy
  * This code is licensed under MIT license (see LICENSE.txt for details) */
-
+#define _WIN32_WINNT 0x0602
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <memoryapi.h>
 #include <string.h>
 #include "csv.h"
-
 /* Windows specific */
 #ifdef _WIN32
 #include <Windows.h>
