@@ -4,7 +4,7 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <string.h>
-
+#include "../headers/misc.h"
 char charAt(char string[], int index) {
     if (index < strlen(string))
         return string[index];
@@ -40,17 +40,18 @@ void insert_trie(TRIE tree, char player_name[], int player_id) {
     trienode *current_node = tree.root;
     char current_char = '\0';
     trienode *aux = NULL;
+    //printf("%s \n", player_name);
 
     while (offset < length) {
         current_char = charAt(player_name, offset);
         if (hasChild(current_node,
-                     (int)current_char))  // se o nodo já possui a próxima letra,
-                                          // pula para ela (índice da letra no vetor
-                                          // é seu valor ascii)
+                     (int)current_char))  // se o nodo jï¿½ possui a prï¿½xima letra,
+                                          // pula para ela (ï¿½ndice da letra no vetor
+                                          // ï¿½ seu valor ascii)
         {
             aux = current_node->children[(int)current_char];
             current_node = aux;
-        } else  // senão, aloca nova letra/nodo
+        } else  // senï¿½o, aloca nova letra/nodo
         {
             aux = initialize_node(current_char);
             current_node->children[(int)current_char] = aux;
@@ -59,7 +60,7 @@ void insert_trie(TRIE tree, char player_name[], int player_id) {
         offset++;
     }
     current_node->isEnd = player_id;
-    // printf("\nINSERTED %d",length);
+    //printf("\nINSERTED %d",length);
 }
 
 void print_node(trienode *node1) {
@@ -103,7 +104,7 @@ int isPresent(TRIE tree, char name[]) {
 
 trienode *findEndOfPrefix(trienode *root,
                           char *prefix)  // posiciona o ponteiro no nodo correspondente a
-                                         // última letra do prefixo
+                                         // ï¿½ltima letra do prefixo
 {
     int offset = 0;
     int prefix_length = strlen(prefix);
@@ -138,7 +139,7 @@ listnode *list_all(TRIE tree,
 }
 
 void list_nodes(listnode **list_of_players, char *current_word,
-                trienode *current_node)  // a partir da útlima letra do prefixo,
+                trienode *current_node)  // a partir da ï¿½tlima letra do prefixo,
                                          // lista todos as palavras encontradas
 {
     char *next_word = NULL;
@@ -147,7 +148,7 @@ void list_nodes(listnode **list_of_players, char *current_word,
     if (current_node != NULL) {
         if (current_node->isEnd) {
             player_aux.id = current_node->isEnd;
-            player_aux.name = malloc(sizeof(char) * 32);
+            player_aux.name = malloc(sizeof(char) * NAME_LEN);
             strcpy(player_aux.name, current_word);
             insert_list(list_of_players, player_aux);
             //printf("\n%s", current_word);

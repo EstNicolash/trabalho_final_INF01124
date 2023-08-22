@@ -69,8 +69,9 @@ int main() {
             rating.rating_sum = strtod(col, NULL);
             u_rev.rating = rating.rating_sum;
 
-            reviews_hash_table_insertion(reviews, user_id, u_rev);
+            
             count_rating_hash_table_insertion(count_rating, rating);
+            reviews_hash_table_insertion(reviews, user_id, u_rev);
 
             count_row++;
         }
@@ -95,7 +96,7 @@ int main() {
             // Leitura das posições
             col = CsvReadNextCol(row, players_handle);
             strncpy(player.positions, col, POSITIONS_LEN);
-
+            //printf("%d %s %s \n", player.fifa_id, player.name, player.positions);
             //Inserções
             player_pointer = players_hash_table_insertion(players, player);
             positions_table_insertion(&pos_rank, count_rating, player_pointer);
@@ -112,7 +113,6 @@ int main() {
         /////////////////////////////////////////////////////////
 
         row = CsvReadNextRow(tags_handle);  //Informação "inutil"
-                                            //
         count_row = 0;
         tag_row.tag_text = malloc(sizeof(char) * NAME_LEN);
 
@@ -167,7 +167,6 @@ int main() {
 
         char name[NAME_LEN];
 
-        listnode *prefix_search = initialize_list();
 
         id_list *l1 = initialize_id_list();
         id_list *l2 = initialize_id_list();
@@ -186,7 +185,11 @@ int main() {
                 scanf("%d", &input_num);
                 fflush(stdin);
 
+           
                 fifa_search = players_hash_table_search(players, input_num);
+
+                
+
 
                 if (fifa_search) {
                     rating_search = count_rating_hash_table_search(count_rating, input_num);
@@ -214,15 +217,35 @@ int main() {
 
                 for (int i = 0; i < strlen(player.name); ++i, ++k) name[i] = player.name[k];
 
+                printf("%s \n", player.name);
+
                 fflush(stdin);
+
+                listnode *aux = initialize_list();
+                listnode *prefix_search = initialize_list();
+
+                printf("Teste\n");
                 prefix_search = list_all(name_search, name);
+                printf("Teste\n");
+                aux = prefix_search;
 
                 print_player_info_header();
-                while (prefix_search) {
-                    fifa_search = players_hash_table_search(players, prefix_search->player.id);
-                    print_player_info(fifa_search);
+
+                while (prefix_search) { 
+
+
+                    fifa_search = players_hash_table_search(players, prefix_search->player.id); 
+
+                    if(fifa_search)
+                        print_player_info(fifa_search);
+
+                    //printf("%d %f %s\n", fifa_search->fifa_id, fifa_search->name, fifa_search->positions);
                     prefix_search = prefix_search->next;
+                    free(aux);
+                    aux = prefix_search;
                 }
+
+               
 
                 continue;
             }
