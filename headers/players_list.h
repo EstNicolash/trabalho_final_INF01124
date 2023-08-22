@@ -2,10 +2,17 @@
 #define PLAYERS_LIST_H
 #include "misc.h"
 
-// Estrutura players_list: Dados e ponteiro pra próxima players_lista
+/* PlayersList
+ *
+ * - Lista de jogadores
+ *
+ * data: Dado do jogador
+ * next: proximo elemento da lista
+ *
+ */
 struct players_list {
-  PlayerData data;
-  struct players_list *next;
+    PlayerData data;
+    struct players_list *next;
 };
 typedef struct players_list *PlayersList;
 

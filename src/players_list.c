@@ -1,46 +1,46 @@
 #include "../headers/players_list.h"
+
 #include <stdio.h>
 /* list_init
  * Inicializa a lista com NULL
- * @param *list: Ponteiro para uma lista
- *
- * */
-void players_list_init(PlayersList *list) { *list = NULL; }
+ * @*list: Ponteiro para uma lista
+ */
+void players_list_init(PlayersList *list) {
+    *list = NULL;
+}
 
 /*list_print
  *
  * Printa a lista no terminal
  *
- * @param list: Lista para imprimir
+ * @list: Lista para imprimir
  */
 
 void players_list_print(PlayersList list) {
-  while (list) {
-    printf("[fifa_id: %d, name: %s positions: %s", list->data.fifa_id,
-           list->data.name, list->data.positions);
+    while (list) {
+        printf("[fifa_id: %d, name: %s positions: %s", list->data.fifa_id, list->data.name, list->data.positions);
 
-    printf("]");
-    list = list->next;
-  }
-  printf("\n");
+        printf("]");
+        list = list->next;
+    }
+    printf("\n");
 }
 
-/* list_insertion_begin
+/* players_list_insertion_begin
  *
  * @brief: Insere elemento no começo da lista
  *
- * @param list: Endereço do primeiro elemento da lista(a lista)
- * @param data: Dado do elemento a ser isnerido na lista
+ * @list: Endereço do primeiro elemento da lista(a lista)
+ * @data: Dado do jogador a ser inserido na lista
  *
  */
 PlayerData *players_list_insertion_begin(PlayersList *list, PlayerData data) {
+    PlayersList new_list = (PlayersList)malloc(sizeof(struct players_list));
+    new_list->data = data;
+    new_list->next = *list;
 
-  PlayersList new_list = (PlayersList)malloc(sizeof(struct players_list));
-  new_list->data = data;
-  new_list->next = *list;
-
-  *list = new_list;
-  return &(new_list->data);
+    *list = new_list;
+    return &(new_list->data);
 }
 /* list_destruct
  *
@@ -50,11 +50,11 @@ PlayerData *players_list_insertion_begin(PlayersList *list, PlayerData data) {
  *
  */
 void players_list_destruct(PlayersList *list) {
-  while (*list) {
-    PlayersList aux = *list;
-    *list = aux->next;
-    free(aux);
-  }
+    while (*list) {
+        PlayersList aux = *list;
+        *list = aux->next;
+        free(aux);
+    }
 }
 
 /* list_length
@@ -67,32 +67,30 @@ void players_list_destruct(PlayersList *list) {
  *
  */
 int players_list_length(PlayersList list) {
-  int count = 0;
-  while (list) {
-    list = list->next;
-    ++count;
-  }
-  return count;
+    int count = 0;
+    while (list) {
+        list = list->next;
+        ++count;
+    }
+    return count;
 }
 
-/* list_search
+/* players_list_search
  *
- * @brief: Busca na lista o dado de acordo com o a chave inserida
+ * @brief: Busca na lista o jogador pela seu ID
 
- * @param list: A lista onde a busca é efetuda
- * @param key: A chava em inteiro do dado a ser encontrado
+ * @list: A lista onde a busca é efetuda
+ * @key: ID do jogador
  *
  * @return: NULL se o dado não estiver na lista, o endereço do dado caso seja
  * encontrado
  *
  */
 PlayerData *players_list_search(PlayersList list, int key) {
-  while (list) {
+    while (list) {
+        if (list->data.fifa_id == key) return &(list->data);
 
-    if (list->data.fifa_id == key)
-      return &(list->data);
-
-    list = list->next;
-  }
-  return NULL;
+        list = list->next;
+    }
+    return NULL;
 }

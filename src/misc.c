@@ -8,8 +8,8 @@ uint a_pow10[10] = {1, 10, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 1000
  * @brief: Funçção de hash, usando um valor inteiro como base para efetuar o
  * hashing
  *
- * @param key: o valor de entrada na tabela a ser transformado
- * @param size: o tamanho da tabela hash
+ * @key: o valor de entrada na tabela a ser transformado
+ * @size: o tamanho da tabela hash
  *
  * @return: O valor hash
  */
@@ -67,8 +67,8 @@ uint debug_count;
  *
  *  @brief: Processa a entrada <lista de tags> para a busca pela tag (pesquisa 2.4).
  *
- *  @param tag_list: A <lista de tags> antes de ser devidamente processada, isto é, a linha intera do buffer do console.
- *  @param num_tags: Ponteiro para a quantidade de tags na lista de tags.
+ *  @tag_list: A <lista de tags> antes de ser devidamente processada, isto é, a linha intera do buffer do console.
+ *  @num_tags: Ponteiro para a quantidade de tags na lista de tags.
  *
  *  @return list_of_tags: Um array de strings com cada posição contendo uma tag.
  *
@@ -104,4 +104,18 @@ char **list_tags(char tag_list[NAME_LEN], int *num_tags) {
     }
 
     return list_of_tags;
+}
+
+/*  strlwr 
+ *
+ *  @brief: Transforma todas as letras de uma string em minúsculo.
+ *
+ *  @str: String 
+ *
+ *  @return a string toda em minúsclo.
+ */
+char *strlwr(char *str) {
+    for (int i = 0; i < strlen(str); i++) str[i] = tolower(str[i]);
+
+    return str;
 }

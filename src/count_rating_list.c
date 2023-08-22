@@ -1,127 +1,125 @@
 #include "../headers/count_rating_list.h"
-/* list_init
+/* count_rating_list_list_init
  * Inicializa a lista com NULL
- * @param *list: Ponteiro para uma lista
- *
- * */
-void count_rating_list_init(CountRatingList *list) { *list = NULL; }
+ * @list: Ponteiro para uma lista
+ */
+void count_rating_list_init(CountRatingList *list) {
+    *list = NULL;
+}
 
-/*list_print
+/* count_rating_list_print
  *
  * Printa a lista no terminal
  *
- * @param list: Lista para imprimir
- *
+ * @list: Lista para imprimir
  */
-
 void count_rating_list_print(CountRatingList list) {
-  while (list) {
-    printf("[fifa_id: %d, total: %d sum: %f]", list->data.fifa_id,
-           list->data.total_rating, list->data.rating_sum);
-    list = list->next;
-  }
-  printf("\n");
+    while (list) {
+        printf("[fifa_id: %d, total: %d sum: %f]", list->data.fifa_id, list->data.total_rating, list->data.rating_sum);
+        list = list->next;
+    }
+    printf("\n");
 }
 
-/* list_insertion_begin
+/* count_rating_list_insertion_end
  *
- * @brief: Insere elemento no começo da lista
+ * @brief: Insere ou modifica a avaliação total do jogador 
  *
- * @param list: Endereço do primeiro elemento da lista(a lista)
- * @param data: Dado do elemento a ser isnerido na lista
+ * @list: Endereço do primeiro elemento da lista(a lista)
+ * @data: Dado do elemento a ser isnerido na lista
  *
  */
-void count_rating_list_insertion_end(CountRatingList *list,
-                                     CountRatingData data) {
+void count_rating_list_insertion_end(CountRatingList *list, CountRatingData data) {
+    if (*list) {
+        CountRatingList aux = *list;
 
-  if (*list) {
-    CountRatingList aux = *list;
+        //percorre a lista
+        while (aux->next) {
+            //Se o id da lista for igual ao dado inserido, há jogador na lista então apenas atualiza
+            if (aux->data.fifa_id == data.fifa_id) {
+                aux->data.total_rating++;
+                aux->data.rating_sum += data.rating_sum;
+                return;
+            }
 
-    while (aux->next) {
-      if (aux->data.fifa_id == data.fifa_id) {
-        aux->data.total_rating++;
-        aux->data.rating_sum += data.rating_sum;
+            aux = aux->next;
+        }
+
+        //Caso só haja um elemento da lista e este elemento for o jogador na inserção
+        if (aux->data.fifa_id == data.fifa_id) {
+            aux->data.total_rating++;
+            aux->data.rating_sum += data.rating_sum;
+            return;
+        }
+
+        //Se há lista mas não há o jogador não está nela, aloca um nodo da lista para o jogador
+        CountRatingList new_list = (CountRatingList)malloc(sizeof(struct count_rating_list));
+        new_list->data = data;
+        new_list->next = NULL;
+
+        aux->next = new_list;
+
         return;
-      }
-
-      aux = aux->next;
     }
-    if (aux->data.fifa_id == data.fifa_id) {
-        aux->data.total_rating++;
-        aux->data.rating_sum += data.rating_sum;
-        return;
-      }
 
-    CountRatingList new_list =
-        (CountRatingList)malloc(sizeof(struct count_rating_list));
+    //Se não há lista, cria nova lista
+    CountRatingList new_list = (CountRatingList)malloc(sizeof(struct count_rating_list));
     new_list->data = data;
     new_list->next = NULL;
 
-    aux->next = new_list;
+    *list = new_list;
 
     return;
-  }
-
-  CountRatingList new_list =
-      (CountRatingList)malloc(sizeof(struct count_rating_list));
-  new_list->data = data;
-  new_list->next = NULL;
-
-  *list = new_list;
-
-  return;
 }
 /* list_destruct
  *
  * @brief: Destói a lista
  *
- * @param list: Endereço da lista a ser destruída
+ * @list: Endereço da lista a ser destruída
  *
  */
 void count_rating_list_destruct(CountRatingList *list) {
-  while (*list) {
-    CountRatingList aux = *list;
-    *list = aux->next;
-    free(aux);
-  }
+    while (*list) {
+        CountRatingList aux = *list;
+        *list = aux->next;
+        free(aux);
+    }
 }
 
 /* list_length
  *
  * @brief: calculca o tamanho da lista
  *
- * @param list: A lista a ser verificada o tamanho
+ * @ list: A lista a ser verificada o tamanho
  *
  * @return: O tamanho de list
  *
  */
 int count_rating_list_length(CountRatingList list) {
-  int count = 0;
-  while (list) {
-    list = list->next;
-    ++count;
-  }
-  return count;
+    int count = 0;
+    while (list) {
+        list = list->next;
+        ++count;
+    }
+    return count;
 }
 
-/* list_search
+/* count_rating_list_search
  *
  * @brief: Busca na lista o dado de acordo com o a chave inserida
  *
- * @param list: A lista onde a busca é efetuda
- * @param key: A chava em inteiro do dado a ser encontrado
+ * @list: A lista onde a busca é efetuda
+ * @key: A chava em inteiro do dado a ser encontrado
  *
  * @return: NULL se o dado não estiver na lista, o endereço do dado caso seja
  * encontrado
  *
  */
 CountRatingData *count_rating_list_search(CountRatingList list, int key) {
-  while (list) {
+    while (list) {
+        if (list->data.fifa_id == key) return &(list->data);
 
-    if (list->data.fifa_id == key)
-      return &(list->data);
-
-    list = list->next;
-  }
-  return NULL;
+        list = list->next;
+    }
+    return NULL;
 }
