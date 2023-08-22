@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <memoryapi.h>
 #include <string.h>
 #include "csv.h"
 /* Windows specific */
