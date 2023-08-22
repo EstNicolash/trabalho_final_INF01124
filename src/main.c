@@ -1,4 +1,7 @@
 
+#include <ctype.h>
+#include <string.h>
+
 #include "../headers/ReviewHashTable.h"
 #include "../headers/count_rating_hash_table.h"
 #include "../headers/csv.h"
@@ -32,12 +35,6 @@ int main() {
 
     PlayerData player;
     PlayerData *player_pointer;
-
-    //rating_pointer_null = (CountRatingData *)malloc(sizeof(CountRatingData));
-    //rating_pointer_null->rating_sum = 0;
-    //rating_pointer_null->fifa_id = 0;
-    //rating_pointer_null->total_rating = 0;
-
     CountRatingData rating;
     UserReview u_rev;
     UserTag tag_row;
@@ -47,7 +44,7 @@ int main() {
                               //
     char *row;                //Linha do arquivo
     const char *col;          //Coluna do arquivo
-    uint count_row = 0;       //Contagem das linhas
+    //uint count_row = 0;       //Contagem das linhas
 
     //Abertura dos arquivos
     CsvHandle players_handle = CsvOpen(PLAYERS_FILE);
@@ -80,16 +77,16 @@ int main() {
             count_rating_hash_table_insertion(count_rating, rating);
             reviews_hash_table_insertion(reviews, user_id, u_rev);
 
-            count_row++;
+            //            count_row++;
         }
-        printf("Rating Row = %d\n", count_row);
+        //printf("Rating Row = %d\n", count_row);
 
         ///////////////////////////////////////////////////////////
         //
         // Leitura do arquivo players.csv
         //
         // ///////////////////////////////////////////////////////
-        count_row = 0;
+        //count_row = 0;
 
         row = CsvReadNextRow(players_handle);  // Descartando informações desnecessárias
 
@@ -109,9 +106,9 @@ int main() {
             positions_table_insertion(&pos_rank, count_rating, player_pointer);
             insert_trie(name_search, player.name, player.fifa_id);
 
-            count_row++;
+            // count_row++;
         }
-        printf("Players Row = %d\n", count_row);
+        //printf("Players Row = %d\n", count_row);
 
         //////////////////////////////////////////////////////////
         //
@@ -120,7 +117,7 @@ int main() {
         /////////////////////////////////////////////////////////
 
         row = CsvReadNextRow(tags_handle);  //Informação "inutil"
-        count_row = 0;
+        //count_row = 0;
         tag_row.tag_text = malloc(sizeof(char) * NAME_LEN);
 
         while (row = CsvReadNextRow(tags_handle)) {
@@ -136,10 +133,10 @@ int main() {
             //            printf("%d %d %s\n", tag_row.user_id, tag_row.sofifa_id, tag_row.tag_text);
             insert_tag_trie(tags, tag_row);
 
-            ++count_row;
+            // ++count_row;
         }
 
-        printf("Tags Row = %d\n", count_row);
+        //  printf("Tags Row = %d\n", count_row);
 
         //Fechar arquivos
         CsvClose(tags_handle);
@@ -160,24 +157,13 @@ int main() {
 
         char user_input[USER_INPUT] = {'a'};  //Entrada do usuário, escolha do tipo de pesquisa
         int input_num;                        //Entrada numérica do usuário
-        char N[50] = {'/0'};                  //Valor N da pesquisa topN
-        char pos_input[POS + 2];              // '<Posição>'
-        char pos[POS];                        //<Posição>
-        char tags_buffer[NAME_LEN];           //Lista de tags
-        char **list_of_tags;                  //Lista de tags processada num array
-        int num_tags = 0;                     //Número de tags
 
         //Variáveis para o retorno das buscas:
         PlayerData *fifa_search;
         CountRatingData *rating_search;
         UserData *user_search;
 
-        char name[NAME_LEN];
-
-        id_list *l1 = initialize_id_list();
-        id_list *l2 = initialize_id_list();
-
-        while (strncmp(user_input, "quit", USER_INPUT) != 0) {
+        while (strncmp(user_input, "quit", 4) != 0) {
             fflush(stdin);
 
             printf("$>");
@@ -213,22 +199,26 @@ int main() {
             // ////////////////////////////////////
             if (strncmp(user_input, "player", USER_INPUT) == 0) {
                 int k = 0;
+                char name[NAME_LEN];
                 scanf("%[^\n]%*c", player.name);
 
+                //name_input_fix(name, player.name);
+                //printf("%s\n", name);
                 while (player.name[k] == ' ') ++k;  //Ignora espaços iniciais
 
                 for (int i = 0; i < strlen(player.name); ++i, ++k) name[i] = player.name[k];
+                name[0] = toupper(name[0]);
 
-                printf("%s \n", player.name);
+                //printf("%s \n", player.name);
 
                 fflush(stdin);
 
                 listnode *aux = initialize_list();
                 listnode *prefix_search = initialize_list();
 
-                printf("Teste\n");
+                //printf("Teste\n");
                 prefix_search = list_all(name_search, name);
-                printf("Teste\n");
+                //printf("Teste\n");
                 aux = prefix_search;
 
                 print_player_info_header();
@@ -277,20 +267,26 @@ int main() {
             // 2.3 Pesquisa TopN de uma posição
             //
             ///////////////////////////////////////////////////////////
-            if (strncmp(user_input, "top", POS) == 0) {
+            if (strncmp(user_input, "top", 3) == 0) {
+                char pos_input[POS * 2];  // '<Posição>'
+                char pos[POS];            //<Posição>
+                char N[10];               //Valor N da pesquisa topN
                 int j = 0;
-
+                int i = 3;
+                //printf("%s %c tste\n", user_input, user_input[i]);
                 //Determina o valor de N
-                for (int i = 3; i < strlen(user_input); ++i, ++j) N[j] = user_input[i];
+                while ('0' <= user_input[i] && user_input[i] <= '9') {
+                    // printf("i:%c\n", user_input[i]);
+                    N[j] = user_input[i];
+                    ++j;
+                    ++i;
+                    // printf("f:%c\n", user_input[i]);
+                }
+                //printf("teste\n");
 
                 scanf("%s", pos_input);  //posição
-                pos[0] = pos_input[1];
-                pos[1] = pos_input[2];
 
-                if (pos_input[3] != 39)
-                    pos[2] = pos_input[3];
-                else
-                    pos[2] = 0;
+                pos_input_fix(pos, pos_input);
 
                 positions_ranking_list_print(pos_rank.positions_table[positions_ranking_pos_cod(pos)], atoi(N));
 
@@ -302,20 +298,35 @@ int main() {
             //
             /////////////////////////////////////////////////////////
             if (strncmp((user_input), "tags", 4) == 0) {
-                num_tags = 0;
+                char **list_of_tags;         //Lista de tags processada num array
+                int num_tags = 0;            //Número de tags
+                char tags_buffer[NAME_LEN];  //Lista de tags
+
                 scanf("%99[^\n]", tags_buffer);
 
-                list_of_tags = list_tags(tags_buffer, &num_tags);
+                id_list *l1 = initialize_id_list();
 
+                list_of_tags = list_tags(tags_buffer, &num_tags);
+                //printf("Teste %d\n", num_tags);
                 l1 = intersection_multiple(tags, list_of_tags, num_tags);
+                //printf("Teste2\n");
+                id_list *aux = l1;
 
                 print_player_info_header();
 
                 while (l1) {
+                    printf("%d\n", l1->player_id);
                     fifa_search = players_hash_table_search(players, l1->player_id);
-                    print_player_info(fifa_search);
+
+                    //print_player_info(fifa_search);
+
                     l1 = l1->next;
+                    free(aux);
+                    aux = l1;
                 }
+                printf("testeASAAAA\n");
+                for (int i = 0; i < NAME_LEN; ++i) { free(list_of_tags[i]); }
+                free(list_of_tags);
 
                 continue;
             }

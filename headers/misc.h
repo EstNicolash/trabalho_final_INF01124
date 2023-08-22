@@ -21,6 +21,9 @@
 #define USER_INPUT 20  //Input inicial para selecionar o tipo de busca
 #define HEAP_SIZE 20   //Tamanho da Heap de reviews
 #define PRIME 11       // Número primo usado na função de hashing
+#define POS 4          //Máximo tamanho de um string de posições
+#define M 10           //?
+#define NUM_POS 13     //Número de posições do futebol
 
 typedef unsigned int uint;
 
@@ -136,4 +139,6 @@ void print_player_info_header_mais_rating();
 void print_player_info_mais_rating(PlayerData *player, double rating);
 char **list_tags(char tag_list[NAME_LEN], int *num_tags);
 char *strlwr(char *str);
+void pos_input_fix(char pos[POS], char input[POS + 2]);
+void name_input_fix(char name[NAME_LEN], char input[NAME_LEN]);
 #endif

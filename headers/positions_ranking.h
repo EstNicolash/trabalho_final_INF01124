@@ -3,10 +3,6 @@
 #include "count_rating_hash_table.h"
 #include "misc.h"
 
-#define POS 3       //Máximo tamanho de um string de posições
-#define M 10        //?
-#define NUM_POS 13  //Número de posições do futebol
-
 uint positions_ranking_pos_cod(char pos[POS]);
 
 /* Tipo RatingList

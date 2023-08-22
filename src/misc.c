@@ -1,5 +1,8 @@
 #include "../headers/misc.h"
 
+#include <ctype.h>
+#include <string.h>
+
 //Vetor com potencias de 10 para acesso rápido
 uint a_pow10[10] = {1, 10, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000};
 
@@ -36,7 +39,6 @@ uint hash_func2(int key, uint size) {
 
     return hash;
 }*/
-
 //Funções de print para a tabela no console
 void print_player_info(PlayerData *player) {
     if (player->rating)
@@ -85,7 +87,7 @@ char **list_tags(char tag_list[NAME_LEN], int *num_tags) {
     for (int i = 0; i < NAME_LEN; ++i) list_of_tags[i] = malloc(sizeof(char) * NAME_LEN);
 
     int matrix_index = 0;
-
+    printf("tags:%s num:%d\n", tag_list, *num_tags);
     for (int i = 0; i < NAME_LEN; ++i) {
         int j = 0;
 
@@ -121,4 +123,31 @@ char *strlwr(char *str) {
     for (int i = 0; i < strlen(str); i++) str[i] = tolower(str[i]);
 
     return str;
+}
+
+void pos_input_fix(char pos[POS], char input[2 * POS]) {
+    int i = 0;
+    int j = 0;
+
+    printf("%s\n", input);
+    while (input[i] == 39) ++i;
+    while (input[i] != 39) {
+        pos[j] = input[i];
+        ++j;
+        ++i;
+    }
+
+    for (int i = 0; i < POS; ++i) pos[i] = toupper(pos[i]);
+}
+
+void name_input_fix(char name[NAME_LEN], char input[NAME_LEN]) {
+    char *tk = strtok(input, " ");
+    tk[0] = toupper(tk[0]);
+    strncpy(name, tk, strlen(tk));
+
+    while (tk = strtok(NULL, " ")) {
+        tk[0] = toupper(tk[0]);
+        strcat(name, " ");
+        strcat(name, tk);
+    };
 }
