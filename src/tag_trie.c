@@ -124,16 +124,22 @@ id_list *list_all_ids(TAG_TRIE tree, char *tag_text) {
     return NULL;
 }
 
-id_list *intersection(id_list *list1, id_list *list2) {
+id_list *intersection(id_list *list1, id_list *list2)
+{
     id_list *aux;
     id_list *new_list;
 
     new_list = initialize_id_list();
     aux = list1;
-    while (aux != NULL) {
-        if (isIDPresent(list2, aux->player_id)) { insert_id_list(&new_list, aux->player_id); }
-        aux = aux->next;
-    }
+    if(list2)
+       while(aux)
+        {
+            if(isIDPresent(list2, aux->player_id))
+            {
+                insert_id_list(&new_list, aux->player_id);
+            }
+            aux = aux->next;
+        }
     return new_list;
 }
 
