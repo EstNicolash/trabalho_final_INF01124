@@ -34,6 +34,7 @@ int main() {
     UserReview u_rev;
     UserTag tag_row;
     int user_id;
+    char n[NAME_LEN];
     rating.total_rating = 1;  //Inicialização do valor inicial da contagem total de avaliações
                               //
     char *row;                //Linha do arquivo
