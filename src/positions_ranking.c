@@ -96,6 +96,7 @@ void positions_table_insertion(RatingTable *positions_table, CountRatingHashTabl
 
     CountRatingData *review;
     review = count_rating_hash_table_search(count_rating_hash_table, player->fifa_id);
+
     player->rating = review;
 
     // Se encontrou uma avaliação jgoador

@@ -1,6 +1,8 @@
+
 #include "../headers/ReviewHashTable.h"
 #include "../headers/count_rating_hash_table.h"
 #include "../headers/csv.h"
+#include "../headers/misc.h"
 #include "../headers/players_hash_table.h"
 #include "../headers/positions_ranking.h"
 #include "../headers/tag_trie.h"
@@ -30,6 +32,12 @@ int main() {
 
     PlayerData player;
     PlayerData *player_pointer;
+
+    //rating_pointer_null = (CountRatingData *)malloc(sizeof(CountRatingData));
+    //rating_pointer_null->rating_sum = 0;
+    //rating_pointer_null->fifa_id = 0;
+    //rating_pointer_null->total_rating = 0;
+
     CountRatingData rating;
     UserReview u_rev;
     UserTag tag_row;
@@ -69,7 +77,6 @@ int main() {
             rating.rating_sum = strtod(col, NULL);
             u_rev.rating = rating.rating_sum;
 
-            
             count_rating_hash_table_insertion(count_rating, rating);
             reviews_hash_table_insertion(reviews, user_id, u_rev);
 
@@ -167,7 +174,6 @@ int main() {
 
         char name[NAME_LEN];
 
-
         id_list *l1 = initialize_id_list();
         id_list *l2 = initialize_id_list();
 
@@ -185,11 +191,7 @@ int main() {
                 scanf("%d", &input_num);
                 fflush(stdin);
 
-           
                 fifa_search = players_hash_table_search(players, input_num);
-
-                
-
 
                 if (fifa_search) {
                     rating_search = count_rating_hash_table_search(count_rating, input_num);
@@ -231,21 +233,16 @@ int main() {
 
                 print_player_info_header();
 
-                while (prefix_search) { 
+                while (prefix_search) {
+                    fifa_search = players_hash_table_search(players, prefix_search->player.id);
 
-
-                    fifa_search = players_hash_table_search(players, prefix_search->player.id); 
-
-                    if(fifa_search)
-                        print_player_info(fifa_search);
+                    if (fifa_search) print_player_info(fifa_search);
 
                     //printf("%d %f %s\n", fifa_search->fifa_id, fifa_search->name, fifa_search->positions);
                     prefix_search = prefix_search->next;
                     free(aux);
                     aux = prefix_search;
                 }
-
-               
 
                 continue;
             }

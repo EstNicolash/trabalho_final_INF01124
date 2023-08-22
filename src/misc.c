@@ -39,8 +39,11 @@ uint hash_func2(int key, uint size) {
 
 //Funções de print para a tabela no console
 void print_player_info(PlayerData *player) {
-    printf("%-10d \t %-50s \t %15s \t %-3f \t %5d \n\n", player->fifa_id, player->name, player->positions,
-           (double)player->rating->rating_sum / player->rating->total_rating, player->rating->total_rating);
+    if (player->rating)
+        printf("%-10d \t %-50s \t %15s \t %-3f \t %5d \n\n", player->fifa_id, player->name, player->positions,
+               (double)player->rating->rating_sum / player->rating->total_rating, player->rating->total_rating);
+    else
+        printf("%-10d \t %-50s \t %15s \t %-3f \t %5d \n\n", player->fifa_id, player->name, player->positions, 0.0, 0);
 }
 
 void print_player_info_header() {
