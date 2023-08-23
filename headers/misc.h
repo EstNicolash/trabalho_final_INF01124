@@ -141,4 +141,5 @@ char **list_tags(char tag_list[NAME_LEN], int *num_tags);
 char *strlwr(char *str);
 void pos_input_fix(char pos[POS], char input[POS + 2]);
 void name_input_fix(char name[NAME_LEN], char input[NAME_LEN]);
+int tag_input_valid(char *tag_input);
 #endif
