@@ -309,9 +309,9 @@ int main() {
                 id_list *l1 = initialize_id_list();
 
                 list_of_tags = list_tags(tags_buffer, &num_tags);
-                //printf("Teste %d\n", num_tags);
+                printf("Teste %d\n", num_tags);
                 l1 = intersection_multiple(tags, list_of_tags, num_tags);
-                //printf("Teste2\n");
+                printf("Teste2\n");
                 id_list *aux = l1;
                 //print_id_list(l1);
                 print_player_info_header();

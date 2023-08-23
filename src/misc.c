@@ -1,6 +1,7 @@
 #include "../headers/misc.h"
 
 #include <ctype.h>
+#include <stdio.h>
 #include <string.h>
 
 //Vetor com potencias de 10 para acesso rápido
@@ -84,14 +85,18 @@ char **list_tags(char tag_list[NAME_LEN], int *num_tags) {
     *num_tags = 0;
     char **list_of_tags;
     list_of_tags = malloc(sizeof(char *) * NAME_LEN);
-    for (int i = 0; i < NAME_LEN; ++i) list_of_tags[i] = malloc(sizeof(char) * NAME_LEN);
+    for (int i = 0; i < NAME_LEN; ++i) list_of_tags[i] = (char *)malloc(sizeof(char) * NAME_LEN);
 
     int array_index = 0;
     //printf("tags:%s num:%d\n", tag_list, *num_tags);
+    for (int i = 0; i < strlen(tag_list); ++i) printf("[%d]\n", tag_list[i]);
+    //char *tk = strtok(tag_list, "\'");
+    //printf("tk: %s", tk);
     for (int i = 0; i < NAME_LEN; ++i) {
         int j = 0;
 
         //Processa uma tag apartir do primeiro ' até o último '.
+        //printf("tags: %c\n", tag_list[i]);
         if (tag_list[i] == 39) {
             ++i;
 
@@ -102,7 +107,7 @@ char **list_tags(char tag_list[NAME_LEN], int *num_tags) {
             }
 
             list_of_tags[array_index][j] = '\0';
-            list_of_tags[array_index][0] = list_of_tags[array_index][0];
+            list_of_tags[array_index][0] = toupper(list_of_tags[array_index][0]);
 
             ++array_index;
             ++(*num_tags);
@@ -141,7 +146,7 @@ void pos_input_fix(char pos[POS], char input[2 * POS]) {
     for (int i = 0; i < POS; ++i) pos[i] = toupper(pos[i]);
 }
 
-void name_input_fix(char name[NAME_LEN], char input[NAME_LEN]) {
+/*void name_input_fix(char name[NAME_LEN], char input[NAME_LEN]) {
     char *tk = strtok(input, " ");
     tk[0] = toupper(tk[0]);
     strncpy(name, tk, strlen(tk));
@@ -151,4 +156,4 @@ void name_input_fix(char name[NAME_LEN], char input[NAME_LEN]) {
         strcat(name, " ");
         strcat(name, tk);
     };
-}
+}*/

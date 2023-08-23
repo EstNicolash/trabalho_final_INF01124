@@ -4,8 +4,8 @@
  id: valor correspondente ao sofifa_id
  */
 typedef struct {
-  char *name;
-  int id;
+    char *name;
+    int id;
 
 } player_data;
 /*
@@ -14,8 +14,8 @@ typedef struct {
  next: ponteiro para próxima estrutura listnode
  */
 struct listnode {
-  player_data player;
-  struct listnode *next;
+    player_data player;
+    struct listnode *next;
 };
 struct listnode;
 typedef struct listnode listnode;
