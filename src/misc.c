@@ -158,3 +158,16 @@ void pos_input_fix(char pos[POS], char input[2 * POS]) {
         strcat(name, tk);
     };
 }*/
+
+int tag_input_valid(char *tag_input)
+{
+    int i = 1;
+    if(tag_input[0] != '\'')
+        return 0;
+    while(tag_input[i] != '\'' && i < strlen(tag_input)){
+          i++;
+    }
+    if(i == strlen(tag_input))
+        return 0;
+    return 1;
+}
