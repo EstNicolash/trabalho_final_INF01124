@@ -12,7 +12,7 @@
 #define TAGS_FILE "files/tags.csv"
 #define MINIRATING_FILE "files/minirating.csv"
 #define RATING_FILE "files/rating.csv"
-#define NAME_LEN 100      // Tamanho máximo para guardar nome do jagador
+#define NAME_LEN 150      // Tamanho máximo para guardar nome do jagador
 #define POSITIONS_LEN 40  // Tamanho máximo para guardar uma posição do jogador
 #define POSITIONS_NUM 14  // Tamanho máximo de posições do futebol
 #define ID 10             // Máximo de chars de uma string fifa_id

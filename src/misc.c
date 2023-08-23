@@ -89,7 +89,7 @@ char **list_tags(char tag_list[NAME_LEN], int *num_tags) {
 
     int array_index = 0;
     //printf("tags:%s num:%d\n", tag_list, *num_tags);
-    for (int i = 0; i < strlen(tag_list); ++i) printf("[%d]\n", tag_list[i]);
+    for (int i = 0; i < strlen(tag_list); ++i) printf("[%c]\n", tag_list[i]);
     //char *tk = strtok(tag_list, "\'");
     //printf("tk: %s", tk);
     for (int i = 0; i < NAME_LEN; ++i) {
@@ -99,8 +99,9 @@ char **list_tags(char tag_list[NAME_LEN], int *num_tags) {
         //printf("tags: %c\n", tag_list[i]);
         if (tag_list[i] == 39) {
             ++i;
-
+            printf("Dentro do \'\n");
             while (tag_list[i] != 39) {
+                printf("[%c]\n", tag_list[i]);
                 list_of_tags[array_index][j] = tag_list[i];
                 ++i;
                 ++j;

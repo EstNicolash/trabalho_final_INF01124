@@ -269,9 +269,9 @@ int main() {
             //
             ///////////////////////////////////////////////////////////
             if (strncmp(user_input, "top", 3) == 0) {
-                char pos_input[POS * 2];  // '<Posição>'
-                char pos[POS];            //<Posição>
-                char N[10];               //Valor N da pesquisa topN
+                char pos_input[POS * 2] = {' '};  // '<Posição>'
+                char pos[POS] = {' '};            //<Posição>
+                char N[10] = {' '};               //Valor N da pesquisa topN
                 int j = 0;
                 int i = 3;
                 //printf("%s %c tste\n", user_input, user_input[i]);
@@ -299,11 +299,11 @@ int main() {
             //
             /////////////////////////////////////////////////////////
             if (strncmp((user_input), "tags", 4) == 0) {
-                char **list_of_tags;         //Lista de tags processada num array
-                int num_tags = 0;            //Número de tags
-                char tags_buffer[NAME_LEN];  //Lista de tags
+                char **list_of_tags = NULL;          //Lista de tags processada num array
+                int num_tags = 0;                    //Número de tags
+                char tags_buffer[NAME_LEN] = {' '};  //Lista de tags
 
-                scanf("%99[^\n]", tags_buffer);
+                scanf("%149[^\n]", tags_buffer);
                 //strncpy(tags_buffer, "'Brazil' 'Dribbler' ", 25);
 
                 id_list *l1 = initialize_id_list();
