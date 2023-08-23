@@ -171,6 +171,7 @@ int main() {
             fflush(stdin);
 
             scanf("%s", user_input);
+            //strncpy(user_input, "tags", 5);
 
             // Extra: Pesquisa por Fifa ID
             if (strncmp(user_input, "fifa", USER_INPUT) == 0) {
@@ -303,6 +304,7 @@ int main() {
                 char tags_buffer[NAME_LEN];  //Lista de tags
 
                 scanf("%99[^\n]", tags_buffer);
+                //strncpy(tags_buffer, "'Brazil' 'Dribbler' ", 25);
 
                 id_list *l1 = initialize_id_list();
 
@@ -311,20 +313,19 @@ int main() {
                 l1 = intersection_multiple(tags, list_of_tags, num_tags);
                 //printf("Teste2\n");
                 id_list *aux = l1;
-
+                //print_id_list(l1);
                 print_player_info_header();
 
                 while (l1) {
-                    printf("%d\n", l1->player_id);
+                    //                   printf("%d\n", l1->player_id);
                     fifa_search = players_hash_table_search(players, l1->player_id);
 
-                    //print_player_info(fifa_search);
+                    print_player_info(fifa_search);
 
                     l1 = l1->next;
                     free(aux);
                     aux = l1;
                 }
-                printf("testeASAAAA\n");
                 for (int i = 0; i < NAME_LEN; ++i) { free(list_of_tags[i]); }
                 free(list_of_tags);
 

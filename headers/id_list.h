@@ -18,3 +18,4 @@ void insert_id_list(id_list **list1, int player_id);
 void print_id_list(id_list *list1);
 void free_id_list(id_list *list1);
 int isIDPresent(id_list *list1, int player_id);
+id_list *id_list_cpy(id_list *src);
