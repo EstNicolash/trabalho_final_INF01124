@@ -286,10 +286,12 @@ int main() {
                 //printf("teste\n");
 
                 scanf("%s", pos_input);  //posição
-
+                if(tag_input_valid(pos_input)){
                 pos_input_fix(pos, pos_input);
-
                 positions_ranking_list_print(pos_rank.positions_table[positions_ranking_pos_cod(pos)], atoi(N));
+                }
+                else
+                    printf("Entrada inválida.\n");
 
                 continue;
             }
