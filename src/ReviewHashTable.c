@@ -94,7 +94,7 @@ void review_heap_heapsort(ReviewHeap *heap) {
     UserReview aux;
     heap->end = HEAP_SIZE - 1;
 
-    for (int i = heap->end; i > 0; --i) {
+    for (int i = heap->end; i >= 0; --i) {
         aux = heap->reviews[0];
         heap->reviews[0] = heap->reviews[heap->end];
         heap->reviews[heap->end] = aux;

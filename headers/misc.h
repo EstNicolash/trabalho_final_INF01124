@@ -142,4 +142,5 @@ char *strlwr(char *str);
 void pos_input_fix(char pos[POS], char input[POS + 2]);
 void name_input_fix(char name[NAME_LEN], char input[NAME_LEN]);
 int tag_input_valid(char *tag_input);
+bool valid_position(char pos[POS]);
 #endif

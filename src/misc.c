@@ -89,7 +89,7 @@ char **list_tags(char tag_list[NAME_LEN], int *num_tags) {
 
     int array_index = 0;
     //printf("tags:%s num:%d\n", tag_list, *num_tags);
-    for (int i = 0; i < strlen(tag_list); ++i) printf("[%c]\n", tag_list[i]);
+    //for (int i = 0; i < strlen(tag_list); ++i) printf("[%c]\n", tag_list[i]);
     //char *tk = strtok(tag_list, "\'");
     //printf("tk: %s", tk);
     for (int i = 0; i < NAME_LEN; ++i) {
@@ -99,9 +99,9 @@ char **list_tags(char tag_list[NAME_LEN], int *num_tags) {
         //printf("tags: %c\n", tag_list[i]);
         if (tag_list[i] == 39) {
             ++i;
-            printf("Dentro do \'\n");
+            //printf("Dentro do \'\n");
             while (tag_list[i] != 39) {
-                printf("[%c]\n", tag_list[i]);
+                //printf("[%c]\n", tag_list[i]);
                 list_of_tags[array_index][j] = tag_list[i];
                 ++i;
                 ++j;
@@ -136,7 +136,7 @@ void pos_input_fix(char pos[POS], char input[2 * POS]) {
     int i = 0;
     int j = 0;
 
-    printf("%s\n", input);
+    //printf("%s\n", input);
     while (input[i] == 39) ++i;
     while (input[i] != 39) {
         pos[j] = input[i];
@@ -159,15 +159,18 @@ void pos_input_fix(char pos[POS], char input[2 * POS]) {
     };
 }*/
 
-int tag_input_valid(char *tag_input)
-{
+int tag_input_valid(char *tag_input) {
     int i = 1;
-    if(tag_input[0] != '\'')
-        return 0;
-    while(tag_input[i] != '\'' && i < strlen(tag_input)){
-          i++;
-    }
-    if(i == strlen(tag_input))
-        return 0;
+    if (tag_input[0] != '\'') return 0;
+    while (tag_input[i] != '\'' && i < strlen(tag_input)) { i++; }
+    if (i == strlen(tag_input)) return 0;
     return 1;
+}
+
+bool valid_position(char pos[POS]) {
+    char positions[NUM_POS][POS] = {"GK", "CB", "RB", "LB", "CDM", "CM", "RM", "LM", "CAM", "LW", "RW", "CF", "ST"};
+    for (int i = 0; i < NUM_POS; ++i)
+        if (strncmp(pos, positions[i], POS) == 0) return true;
+
+    return false;
 }

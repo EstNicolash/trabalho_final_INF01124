@@ -79,7 +79,7 @@ uint positions_ranking_pos_cod(char pos[POS]) {
         if (pos[1] == 'W') return 9;  // Left Wing
     }
 
-    return 0;  // Miss
+    return -1;  // Miss
 }
 
 /*  positions_table_insertion

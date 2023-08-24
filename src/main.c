@@ -252,6 +252,8 @@ int main() {
 
                 print_player_info_header_mais_rating();
 
+                for (int i = 0; i < HEAP_SIZE; ++i) printf("[%d][%f]", i, user_search->user_reviews.reviews[i].rating);
+                printf("\n");
                 if (!user_search->user_reviews.sorted) review_heap_heapsort(&(user_search->user_reviews));
 
                 for (int i = 0; i < HEAP_SIZE; ++i) {
@@ -286,11 +288,14 @@ int main() {
                 //printf("teste\n");
 
                 scanf("%s", pos_input);  //posição
-                if(tag_input_valid(pos_input)){
-                pos_input_fix(pos, pos_input);
-                positions_ranking_list_print(pos_rank.positions_table[positions_ranking_pos_cod(pos)], atoi(N));
-                }
-                else
+                if (tag_input_valid(pos_input)) {
+                    pos_input_fix(pos, pos_input);
+
+                    if (positions_ranking_pos_cod(pos) == -1) continue;
+                    if (!valid_position(pos)) continue;
+
+                    positions_ranking_list_print(pos_rank.positions_table[positions_ranking_pos_cod(pos)], atoi(N));
+                } else
                     printf("Entrada inválida.\n");
 
                 continue;
@@ -311,9 +316,9 @@ int main() {
                 id_list *l1 = initialize_id_list();
 
                 list_of_tags = list_tags(tags_buffer, &num_tags);
-                printf("Teste %d\n", num_tags);
+                //printf("Teste %d\n", num_tags);
                 l1 = intersection_multiple(tags, list_of_tags, num_tags);
-                printf("Teste2\n");
+                //printf("Teste2\n");
                 id_list *aux = l1;
                 //print_id_list(l1);
                 print_player_info_header();
