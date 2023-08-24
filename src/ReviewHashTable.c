@@ -53,7 +53,7 @@ void reviews_heap_heapfy(ReviewHeap *heap, int root) {
  *
  */
 void review_heap_init(ReviewHeap *heap) {
-    heap->end = HEAP_SIZE;
+    heap->end = 0;
     heap->sorted = false;
 
     for (int i = 0; i < HEAP_SIZE; ++i) {
@@ -73,12 +73,25 @@ void review_heap_init(ReviewHeap *heap) {
  *
  */
 void review_heap_insertion(ReviewHeap *heap, UserReview user_review) {
-    if (user_review.rating < heap->reviews[0].rating) return;
+    if (heap->end == HEAP_SIZE && user_review.rating < heap->reviews[0].rating) return;
 
-    heap->reviews[0] = user_review;
-    reviews_heap_heapfy(heap, 0);
+    if (heap->end == HEAP_SIZE) {
+        heap->reviews[0] = user_review;
+        reviews_heap_heapfy(heap, 0);
+        return;
+    }
 
-    if (heap->end != HEAP_SIZE) ++heap->end;
+    int i = heap->end;
+    UserReview aux;
+    heap->reviews[heap->end] = user_review;
+    ++(heap->end);
+
+    while (i != 0 && heap->reviews[(i - 1) / 2].rating > heap->reviews[i].rating) {
+        aux = heap->reviews[(i - 1) / 2];
+        heap->reviews[(i - 1) / 2] = heap->reviews[i];
+        heap->reviews[i] = aux;
+        i = (i - 1) / 2;
+    }
 }
 
 /* review_heap_heapsort
@@ -96,9 +109,9 @@ void review_heap_heapsort(ReviewHeap *heap) {
 
     for (int i = heap->end; i >= 0; --i) {
         aux = heap->reviews[0];
-        heap->reviews[0] = heap->reviews[heap->end];
-        heap->reviews[heap->end] = aux;
-        --heap->end;
+        heap->reviews[0] = heap->reviews[i];
+        heap->reviews[i] = aux;
+        --(heap->end);
         reviews_heap_heapfy(heap, 0);
     }
 }

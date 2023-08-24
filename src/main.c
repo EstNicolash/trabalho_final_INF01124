@@ -252,8 +252,9 @@ int main() {
 
                 print_player_info_header_mais_rating();
 
-                for (int i = 0; i < HEAP_SIZE; ++i) printf("[%d][%f]", i, user_search->user_reviews.reviews[i].rating);
-                printf("\n");
+                //                for (int i = 0; i < HEAP_SIZE; ++i) printf("[%d][%f]", i, user_search->user_reviews.reviews[i].rating);
+                //              printf("\n");
+                //
                 if (!user_search->user_reviews.sorted) review_heap_heapsort(&(user_search->user_reviews));
 
                 for (int i = 0; i < HEAP_SIZE; ++i) {
